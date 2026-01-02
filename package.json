@@ -22,6 +22,7 @@
     "@nuxthub/core": "^0.9.1",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.11.3",
+    "better-sqlite3": "^12.5.0",
     "chart.js": "^4.5.1",
     "date-fns": "^4.1.0",
     "drizzle-kit": "^0.31.7",

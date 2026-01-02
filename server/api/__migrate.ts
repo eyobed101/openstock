@@ -172,7 +172,7 @@ export default defineEventHandler(async (event) => {
     `CREATE TABLE IF NOT EXISTS settings (
       id integer PRIMARY KEY NOT NULL,
       business_name text DEFAULT 'OpenStock Inc.',
-      currency text DEFAULT 'EUR',
+      currency TEXT DEFAULT 'ETB',
       default_margin real DEFAULT 30,
       low_stock_alert integer DEFAULT 1,
       out_of_stock_alert integer DEFAULT 1,

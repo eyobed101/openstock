@@ -8,7 +8,7 @@ const isDev = import.meta.dev;
 
 const settings = ref<{
   businessName: string;
-  currency: 'EUR' | 'USD' | 'GBP';
+  currency: 'EUR' | 'USD' | 'GBP' | 'ETB';
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -101,7 +101,7 @@ const ui = {
 </script>
 
 <template>
-  <div class="space-y-6 max-w-5xl mx-auto">
+  <div class="space-y-6 mx-auto">
     <div class="flex items-end justify-between border-b border-gray-200 pb-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
@@ -148,6 +148,7 @@ const ui = {
               <div>
                 <label :class="ui.label">Currency</label>
                 <select v-model="settings.currency" :class="ui.inputSelect">
+                  <option value="ETB">Ethiopian Birr (Br)</option>
                   <option value="EUR">Euro (€)</option>
                   <option value="USD">US Dollar ($)</option>
                   <option value="GBP">British Pound (£)</option>

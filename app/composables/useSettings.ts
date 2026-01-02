@@ -13,7 +13,7 @@ interface ApiSettings {
 // Frontend shape (nested for UI)
 export interface Settings {
   businessName: string;
-  currency: 'EUR' | 'USD' | 'GBP';
+  currency: 'EUR' | 'USD' | 'GBP' | 'ETB';
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -26,7 +26,7 @@ export interface Settings {
 function transformFromApi(api: ApiSettings): Settings {
   return {
     businessName: api.businessName ?? 'OpenStock Inc.',
-    currency: (api.currency as Settings['currency']) ?? 'EUR',
+    currency: (api.currency as Settings['currency']) ?? 'ETB',
     defaultMargin: api.defaultMargin ?? 30,
     stockAlerts: {
       lowStock: Boolean(api.lowStockAlert),
@@ -62,6 +62,8 @@ export const useSettings = () => {
 
   const currencySymbol = computed(() => {
     switch (settings.value?.currency) {
+      case 'ETB':
+        return 'Br';
       case 'EUR':
         return '€';
       case 'USD':
@@ -69,12 +71,14 @@ export const useSettings = () => {
       case 'GBP':
         return '£';
       default:
-        return '€';
+        return 'Br';
     }
   });
 
   const currencyIcon = computed(() => {
     switch (settings.value?.currency) {
+      case 'ETB':
+        return 'lucide:banknote';
       case 'EUR':
         return 'lucide:euro';
       case 'USD':
@@ -82,7 +86,7 @@ export const useSettings = () => {
       case 'GBP':
         return 'lucide:pound-sterling';
       default:
-        return 'lucide:euro';
+        return 'lucide:banknote';
     }
   });
 

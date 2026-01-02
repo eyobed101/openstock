@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 const router = useRouter();
+const { toggleSidebar } = useSidebar();
 
 const { notifications, unreadCount, markAsRead, markAllAsRead } =
   useNotifications();
@@ -207,36 +208,49 @@ onMounted(() => {
 
 <template>
   <header
-    class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-6 transition-all"
+    class="sticky top-0 z-40 flex h-16 items-center border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 lg:px-6 transition-all"
   >
-    <!-- Left side: Breadcrumbs -->
-    <nav class="flex items-center gap-2 text-sm">
-      <template v-for="(crumb, index) in breadcrumbs" :key="crumb.href">
-        <!-- Separator -->
-        <Icon
-          v-if="index > 0"
-          name="lucide:chevron-right"
-          class="h-4 w-4 text-gray-400"
-        />
+    <div class="flex flex-1 items-center gap-4">
+      <!-- Mobile menu button -->
+      <UiButton
+        variant="ghost"
+        size="icon"
+        class="lg:hidden text-gray-500 hover:text-gray-900"
+        @click="toggleSidebar"
+        aria-label="Toggle Menu"
+      >
+        <Icon name="lucide:menu" class="h-6 w-6" />
+      </UiButton>
 
-        <!-- Crumb -->
-        <NuxtLink
-          :to="crumb.href"
-          class="flex items-center gap-1.5 rounded-md px-2 py-1 transition-colors"
-          :class="
-            index === breadcrumbs.length - 1
-              ? 'font-semibold text-gray-900 bg-gray-100/50'
-              : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
-          "
-        >
-          <Icon v-if="crumb.icon" :name="crumb.icon" class="h-4 w-4" />
-          <span>{{ crumb.name }}</span>
-        </NuxtLink>
-      </template>
-    </nav>
+      <!-- Breadcrumbs -->
+      <nav class="hidden sm:flex items-center gap-2 text-sm">
+        <template v-for="(crumb, index) in breadcrumbs" :key="crumb.href">
+          <!-- Separator -->
+          <Icon
+            v-if="index > 0"
+            name="lucide:chevron-right"
+            class="h-4 w-4 text-gray-400"
+          />
+
+          <!-- Crumb -->
+          <NuxtLink
+            :to="crumb.href"
+            class="flex items-center gap-1.5 rounded-md px-2 py-1 transition-colors"
+            :class="
+              index === breadcrumbs.length - 1
+                ? 'font-semibold text-gray-900 bg-gray-100/50'
+                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+            "
+          >
+            <Icon v-if="crumb.icon" :name="crumb.icon" class="h-4 w-4" />
+            <span>{{ crumb.name }}</span>
+          </NuxtLink>
+        </template>
+      </nav>
+    </div>
 
     <!-- Right side: Actions -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-1.5 sm:gap-3">
       <!-- Search button -->
       <UiButton
         variant="ghost"
@@ -373,10 +387,10 @@ onMounted(() => {
       </div>
 
       <!-- Separator -->
-      <div class="mx-2 h-6 w-px bg-gray-200" />
+      <div class="hidden sm:block mx-1 h-6 w-px bg-gray-200" />
 
       <!-- Quick Actions - Compact buttons -->
-      <div class="flex items-center gap-2">
+      <div class="hidden sm:flex items-center gap-2">
         <NuxtLink to="/movements">
           <UiButton variant="outline" size="sm" class="gap-2">
             <Icon name="lucide:arrow-down" class="h-4 w-4 text-emerald-600" />

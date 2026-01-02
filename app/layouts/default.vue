@@ -1,21 +1,24 @@
 <script setup lang="ts">
 const { loggedIn } = useUserSession();
+const { isCollapsed } = useSidebar();
 </script>
 
 <template>
   <!-- Main layout when authenticated -->
-  <div v-if="loggedIn" class="flex h-screen overflow-hidden bg-gray-100">
+  <div v-if="loggedIn" class="flex h-screen overflow-hidden bg-gray-50">
     <!-- Sidebar -->
     <AppSidebar />
 
-    <!-- Main content -->
-    <div class="flex flex-1 flex-col overflow-hidden">
+    <!-- Main content area -->
+    <div 
+      class="flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out"
+    >
       <!-- Header -->
       <AppHeader />
 
       <!-- Page content -->
       <main class="flex-1 overflow-auto">
-        <div class="mx-auto max-w-7xl px-4 py-5">
+        <div class="px-4 py-6 sm:px-6 lg:px-8">
           <slot />
         </div>
       </main>

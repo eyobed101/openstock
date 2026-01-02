@@ -66,9 +66,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const taxData = [
-    { id: generateId('tax'), name: 'TVA 20%', rate: 0.2, isDefault: true },
-    { id: generateId('tax'), name: 'TVA 10%', rate: 0.1, isDefault: false },
-    { id: generateId('tax'), name: 'TVA 5.5%', rate: 0.055, isDefault: false },
+    { id: generateId('tax'), name: 'VAT 15%', rate: 0.15, isDefault: true },
+    { id: generateId('tax'), name: 'VAT 10%', rate: 0.1, isDefault: false },
+    { id: generateId('tax'), name: 'VAT 5%', rate: 0.05, isDefault: false },
     { id: generateId('tax'), name: 'Exempt', rate: 0, isDefault: false },
   ];
   await insertInBatches(taxes, taxData);
@@ -143,7 +143,7 @@ export default defineEventHandler(async (event) => {
   const supplierData = [
     {
       id: generateId('sup'),
-      name: 'TechDistrib Europe',
+      name: 'TechDistrib East Africa',
       email: 'orders@techdistrib.eu',
       phone: '+33 1 23 45 67 89',
       address: '12 Rue de la Tech',
@@ -162,7 +162,7 @@ export default defineEventHandler(async (event) => {
       city: 'Lyon',
       postalCode: '69001',
       country: 'France',
-      notes: 'Fast shipping, minimum order 500€',
+      notes: 'Fast shipping, minimum order Br 5000',
       isActive: true,
     },
     {

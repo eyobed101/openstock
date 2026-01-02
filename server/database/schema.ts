@@ -438,7 +438,7 @@ export type NewUser = typeof users.$inferInsert;
 export const settings = sqliteTable('settings', {
   id: integer('id').primaryKey(),
   businessName: text('business_name').default('OpenStock Inc.'),
-  currency: text('currency').default('EUR'),
+  currency: text('currency').default('ETB'),
   defaultMargin: real('default_margin').default(30),
   lowStockAlert: integer('low_stock_alert', { mode: 'boolean' }).default(true),
   outOfStockAlert: integer('out_of_stock_alert', { mode: 'boolean' }).default(
