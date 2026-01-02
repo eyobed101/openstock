@@ -119,9 +119,12 @@ const activeSuppliers = computed(
         <h1 class="text-lg font-semibold text-gray-900">Suppliers</h1>
         <p class="text-xs text-gray-500">Manage product suppliers</p>
       </div>
-      <button class="btn-primary" @click="openCreateModal">
-        <Icon name="lucide:plus" class="h-3.5 w-3.5" />
-        Add
+      <button 
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" 
+        @click="openCreateModal"
+      >
+        <Icon name="lucide:plus" class="h-4 w-4" />
+        Add Supplier
       </button>
     </div>
 
@@ -252,94 +255,123 @@ const activeSuppliers = computed(
     <UiModal
       v-model:open="isModalOpen"
       :title="editingSupplier ? 'Edit Supplier' : 'New Supplier'"
-      size="lg"
+      :description="editingSupplier ? 'Update supplier details below.' : 'Add a new supplier to track product sources.'"
+      size="2xl"
     >
-      <form id="supplier-form" class="space-y-4" @submit.prevent="saveSupplier">
-        <div class="rounded border border-gray-200 bg-gray-50 p-3">
-          <h3
-            class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
-          >
-            <Icon name="lucide:building-2" class="h-3.5 w-3.5" />
-            Basic Info
-          </h3>
+      <form id="supplier-form" class="space-y-6" @submit.prevent="saveSupplier">
+        <!-- Basic Information -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+              <Icon name="lucide:building-2" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Basic Information
+            </h3>
+          </div>
+
           <div>
-            <label class="label"
-              >Name <span class="text-red-500">*</span></label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              Supplier Name <span class="text-red-500">*</span>
+            </label>
             <UiInput
               v-model="form.name"
-              placeholder="Supplier name"
+              placeholder="e.g., ABC Wholesale Co."
               autofocus
             />
           </div>
         </div>
 
-        <div class="rounded border border-gray-200 bg-gray-50 p-3">
-          <h3
-            class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
-          >
-            <Icon name="lucide:contact" class="h-3.5 w-3.5" />
-            Contact
-          </h3>
-          <div class="grid gap-3 sm:grid-cols-2">
+        <!-- Contact Information -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-600">
+              <Icon name="lucide:contact" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Contact Information
+            </h3>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2">
             <div>
-              <label class="label">Email</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
               <UiInput
                 v-model="form.email"
                 type="email"
-                placeholder="email@supplier.com"
+                placeholder="contact@supplier.com"
+                icon="lucide:mail"
               />
             </div>
             <div>
-              <label class="label">Phone</label>
-              <UiInput v-model="form.phone" placeholder="+33 1 23 45 67 89" />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
+              <UiInput 
+                v-model="form.phone" 
+                placeholder="+1 (555) 123-4567"
+                icon="lucide:phone"
+              />
             </div>
           </div>
         </div>
 
-        <div class="rounded border border-gray-200 bg-gray-50 p-3">
-          <h3
-            class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
-          >
-            <Icon name="lucide:map-pin" class="h-3.5 w-3.5" />
-            Address
-          </h3>
-          <div class="space-y-3">
+        <!-- Address -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+              <Icon name="lucide:map-pin" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Address
+            </h3>
+          </div>
+
+          <div class="space-y-4">
             <div>
-              <label class="label">Street</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Street Address</label>
               <UiInput v-model="form.address" placeholder="123 Main Street" />
             </div>
-            <div class="grid gap-3 sm:grid-cols-3">
+            <div class="grid gap-4 sm:grid-cols-3">
               <div>
-                <label class="label">City</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">City</label>
                 <UiInput v-model="form.city" placeholder="Paris" />
               </div>
               <div>
-                <label class="label">Postal Code</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Postal Code</label>
                 <UiInput v-model="form.postalCode" placeholder="75001" />
               </div>
               <div>
-                <label class="label">Country</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Country</label>
                 <UiInput v-model="form.country" placeholder="France" />
               </div>
             </div>
           </div>
         </div>
 
-        <div>
-          <label class="label">Notes</label>
-          <textarea
-            v-model="form.notes"
-            class="input min-h-[60px] resize-none"
-            placeholder="Additional notes..."
-          />
+        <!-- Additional Notes -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-amber-50 rounded-lg text-amber-600">
+              <Icon name="lucide:file-text" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Additional Notes
+            </h3>
+          </div>
+
+          <div>
+            <textarea
+              v-model="form.notes"
+              class="flex w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none"
+              placeholder="Any additional information about this supplier..."
+            />
+          </div>
         </div>
       </form>
 
       <template #footer>
         <button
           type="button"
-          class="btn-secondary"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="isSubmitting"
           @click="isModalOpen = false"
         >
@@ -348,15 +380,20 @@ const activeSuppliers = computed(
         <button
           type="submit"
           form="supplier-form"
-          class="btn-primary"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="isSubmitting"
         >
           <Icon
             v-if="isSubmitting"
             name="lucide:loader-2"
-            class="h-3.5 w-3.5 animate-spin"
+            class="h-4 w-4 animate-spin"
           />
-          {{ editingSupplier ? 'Update' : 'Add' }}
+          <Icon
+            v-else
+            name="lucide:check"
+            class="h-4 w-4"
+          />
+          {{ editingSupplier ? 'Update Supplier' : 'Add Supplier' }}
         </button>
       </template>
     </UiModal>

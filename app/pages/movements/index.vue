@@ -182,9 +182,12 @@ function formatDate(date: Date | string) {
         <h1 class="text-lg font-semibold text-gray-900">Stock Movements</h1>
         <p class="text-xs text-gray-500">Track inventory changes</p>
       </div>
-      <button class="btn-primary" @click="openCreateModal">
-        <Icon name="lucide:plus" class="h-3.5 w-3.5" />
-        New
+      <button 
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" 
+        @click="openCreateModal"
+      >
+        <Icon name="lucide:plus" class="h-4 w-4" />
+        New Movement
       </button>
     </div>
 
@@ -379,104 +382,170 @@ function formatDate(date: Date | string) {
     </div>
 
     <!-- Create Modal -->
-    <UiModal v-model:open="isModalOpen" title="New Movement">
+    <UiModal 
+      v-model:open="isModalOpen" 
+      title="New Movement"
+      description="Record a stock movement for inventory tracking."
+      size="lg"
+    >
       <form
         id="movement-form"
-        class="space-y-4"
+        class="space-y-6"
         @submit.prevent="createMovement"
       >
-        <div>
-          <label class="label"
-            >Product <span class="text-red-500">*</span></label
-          >
-          <select v-model="form.productId" class="input" required>
-            <option value="">Select product</option>
-            <option
-              v-for="product in products"
-              :key="product.id"
-              :value="product.id"
-            >
-              {{ product.name }} ({{ product.stockQuantity }} in stock)
-            </option>
-          </select>
-        </div>
+        <!-- Product Selection -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+              <Icon name="lucide:package" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Product
+            </h3>
+          </div>
 
-        <div>
-          <label class="label">Type <span class="text-red-500">*</span></label>
-          <div class="grid grid-cols-3 gap-2">
-            <button
-              v-for="type in movementTypes"
-              :key="type.value"
-              type="button"
-              class="flex flex-col items-center gap-1.5 rounded border p-3 transition-all"
-              :class="
-                form.type === type.value
-                  ? `${type.bgColor} ${type.borderColor}`
-                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-              "
-              @click="form.type = type.value as 'in' | 'out' | 'adjustment'"
-            >
-              <div
-                class="flex h-7 w-7 items-center justify-center rounded"
-                :class="form.type === type.value ? type.bgColor : 'bg-gray-100'"
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide">
+              Select Product <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <select 
+                v-model="form.productId" 
+                class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white" 
+                required
               >
-                <Icon :name="type.icon" class="h-4 w-4" :class="type.color" />
+                <option value="">Choose a product...</option>
+                <option
+                  v-for="product in products"
+                  :key="product.id"
+                  :value="product.id"
+                >
+                  {{ product.name }} ({{ product.stockQuantity }} in stock)
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
               </div>
-              <span class="text-xs font-medium">{{ type.label }}</span>
-            </button>
+            </div>
           </div>
         </div>
 
-        <div>
-          <label class="label"
-            >Quantity <span class="text-red-500">*</span></label
-          >
-          <input
-            v-model.number="form.quantity"
-            type="number"
-            min="1"
-            class="input font-mono"
-            required
-          />
+        <!-- Movement Details -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+              <Icon name="lucide:arrow-left-right" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Movement Details
+            </h3>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                Type <span class="text-red-500">*</span>
+              </label>
+              <div class="grid grid-cols-3 gap-3">
+                <button
+                  v-for="type in movementTypes"
+                  :key="type.value"
+                  type="button"
+                  class="flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all hover:shadow-sm"
+                  :class="
+                    form.type === type.value
+                      ? `${type.bgColor} ${type.borderColor} shadow-sm`
+                      : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                  "
+                  @click="form.type = type.value as 'in' | 'out' | 'adjustment'"
+                >
+                  <div
+                    class="flex h-8 w-8 items-center justify-center rounded-lg"
+                    :class="form.type === type.value ? type.bgColor : 'bg-gray-100'"
+                  >
+                    <Icon :name="type.icon" class="h-4 w-4" :class="type.color" />
+                  </div>
+                  <span class="text-xs font-semibold">{{ type.label }}</span>
+                  <span class="text-xs text-gray-500">{{ type.description }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                Quantity <span class="text-red-500">*</span>
+              </label>
+              <input
+                v-model.number="form.quantity"
+                type="number"
+                min="1"
+                class="flex h-11 w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 font-mono"
+                required
+                placeholder="Enter quantity"
+              />
+            </div>
+
+            <div v-if="form.type === 'in'">
+              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide">Supplier (Optional)</label>
+              <div class="relative">
+                <select 
+                  v-model="form.supplierId" 
+                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                >
+                  <option value="">None</option>
+                  <option
+                    v-for="supplier in suppliers"
+                    :key="supplier.id"
+                    :value="supplier.id"
+                  >
+                    {{ supplier.name }}
+                  </option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div v-if="form.type === 'in'">
-          <label class="label">Supplier</label>
-          <select v-model="form.supplierId" class="input">
-            <option value="">Select (optional)</option>
-            <option
-              v-for="supplier in suppliers"
-              :key="supplier.id"
-              :value="supplier.id"
-            >
-              {{ supplier.name }}
-            </option>
-          </select>
-        </div>
+        <!-- Additional Information -->
+        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
+            <div class="p-1.5 bg-amber-50 rounded-lg text-amber-600">
+              <Icon name="lucide:file-text" class="h-4 w-4" />
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Additional Information
+            </h3>
+          </div>
 
-        <div>
-          <label class="label">Reference</label>
-          <input
-            v-model="form.reference"
-            class="input"
-            placeholder="Order #, Invoice #"
-          />
-        </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Reference</label>
+              <input
+                v-model="form.reference"
+                class="flex h-11 w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
+                placeholder="Order #, Invoice #, etc."
+              />
+            </div>
 
-        <div>
-          <label class="label">Notes</label>
-          <textarea
-            v-model="form.reason"
-            class="input min-h-[60px] resize-none"
-            placeholder="Optional notes..."
-          />
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Notes</label>
+              <textarea
+                v-model="form.reason"
+                class="flex w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none"
+                placeholder="Optional notes about this movement..."
+              />
+            </div>
+          </div>
         </div>
       </form>
 
       <template #footer>
         <button
           type="button"
-          class="btn-secondary"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           @click="isModalOpen = false"
         >
           Cancel
@@ -484,15 +553,20 @@ function formatDate(date: Date | string) {
         <button
           type="submit"
           form="movement-form"
-          class="btn-primary"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="isSubmitting"
         >
           <Icon
             v-if="isSubmitting"
             name="lucide:loader-2"
-            class="h-3.5 w-3.5 animate-spin"
+            class="h-4 w-4 animate-spin"
           />
-          Record
+          <Icon
+            v-else
+            name="lucide:check"
+            class="h-4 w-4"
+          />
+          Record Movement
         </button>
       </template>
     </UiModal>
