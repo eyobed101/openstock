@@ -1,10 +1,32 @@
 <script setup lang="ts">
-const { data: stats, pending } = await useFetch('/api/dashboard/stats');
-const { data: chartData, pending: chartsPending } = await useFetch(
-  '/api/dashboard/charts'
-);
+const now = new Date();
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(now.getDate() - 30);
+
+const startDate = ref(thirtyDaysAgo.toISOString().split('T')[0]);
+const endDate = ref(now.toISOString().split('T')[0]);
+
+const { data: stats, pending, refresh: refreshStats } = await useFetch('/api/dashboard/stats', {
+  query: computed(() => ({
+    startDate: startDate.value,
+    endDate: endDate.value
+  }))
+});
+
+const { data: chartData, pending: chartsPending, refresh: refreshCharts } = await useFetch(
+  '/api/dashboard/charts', {
+  query: computed(() => ({
+    startDate: startDate.value,
+    endDate: endDate.value
+  }))
+});
 
 const { settings } = useSettings();
+
+function handleRangeChange() {
+  refreshStats();
+  refreshCharts();
+}
 
 function formatCurrency(value: number): string {
   return new Intl.NumberFormat('fr-FR', {
@@ -37,7 +59,7 @@ const ui = {
 
 <template>
   <div class="space-y-6">
-    <div class="flex items-end justify-between">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
           Overview
@@ -46,12 +68,12 @@ const ui = {
           Business intelligence and inventory metrics.
         </p>
       </div>
-      <div
-        class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-md shadow-sm"
-      >
-        <Icon name="lucide:calendar" class="h-4 w-4 text-gray-400" />
-        <span class="text-xs font-medium text-gray-700">Last 30 Days</span>
-      </div>
+      
+      <DashboardDateRangePicker
+        v-model:startDate="startDate"
+        v-model:endDate="endDate"
+        @change="handleRangeChange"
+      />
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

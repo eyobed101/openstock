@@ -1,31 +1,46 @@
-import { sql, eq, desc, gte } from 'drizzle-orm';
+import { sql, eq, desc, gte, lte, and } from 'drizzle-orm';
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   const db = useDB();
+  const query = getQuery(event);
 
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  // Default to last 30 days if no dates provided
+  const now = new Date();
+  const defaultStart = new Date();
+  defaultStart.setDate(now.getDate() - 30);
 
-  const movementsByDay = await db
+  const startDateStr = (query.startDate as string) || defaultStart.toISOString().split('T')[0];
+  const endDateStr = (query.endDate as string) || now.toISOString().split('T')[0];
+
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
+
+  // Set end date to end of day
+  endDate.setHours(23, 59, 59, 999);
+
+  const startUnix = Math.floor(startDate.getTime() / 1000);
+  const endUnix = Math.floor(endDate.getTime() / 1000);
+
+  const dateFilter = and(
+    sql`${tables.stockMovements.createdAt} >= ${startUnix}`,
+    sql`${tables.stockMovements.createdAt} <= ${endUnix}`
+  );
+
+  const movementsByDay = (await db
     .select({
       date: sql<string>`date(${tables.stockMovements.createdAt}, 'unixepoch')`,
       type: tables.stockMovements.type,
       totalQuantity: sql<number>`SUM(ABS(${tables.stockMovements.quantity}))`,
     })
     .from(tables.stockMovements)
-    .where(
-      gte(
-        tables.stockMovements.createdAt,
-        sql`${Math.floor(thirtyDaysAgo.getTime() / 1000)}`
-      )
-    )
+    .where(dateFilter)
     .groupBy(
       sql`date(${tables.stockMovements.createdAt}, 'unixepoch')`,
       tables.stockMovements.type
     )
-    .orderBy(sql`date(${tables.stockMovements.createdAt}, 'unixepoch')`);
+    .orderBy(sql`date(${tables.stockMovements.createdAt}, 'unixepoch')`)) as { date: string; type: string; totalQuantity: number }[];
 
-  const movementsChartData = processMovementsByDay(movementsByDay);
+  const movementsChartData = processMovementsByDay(movementsByDay, startDate, endDate);
 
   const productsByCategory = await db
     .select({
@@ -88,7 +103,7 @@ export default defineEventHandler(async () => {
       totalQuantity: sql<number>`SUM(ABS(${tables.stockMovements.quantity}))`,
     })
     .from(tables.stockMovements)
-    .where(gte(tables.stockMovements.createdAt, thirtyDaysAgo))
+    .where(dateFilter)
     .groupBy(tables.stockMovements.type);
 
   return {
@@ -97,21 +112,31 @@ export default defineEventHandler(async () => {
     topProductsByValue,
     stockLevels: stockLevelsResult,
     movementsByType,
+    range: {
+      start: startDateStr,
+      end: endDateStr
+    }
   };
 });
 
 function processMovementsByDay(
-  movements: { date: string; type: string; totalQuantity: number }[]
+  movements: { date: string; type: string; totalQuantity: number }[],
+  startDate: Date,
+  endDate: Date
 ) {
   const dateMap = new Map<string, { in: number; out: number }>();
-
   const dates: string[] = [];
-  for (let i = 13; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const dateStr = date.toISOString().split('T')[0];
+
+  const current = new Date(startDate);
+  // Ensure we compare without time for date inclusion
+  const targetEnd = new Date(endDate);
+  targetEnd.setHours(0, 0, 0, 0);
+
+  while (current <= endDate) {
+    const dateStr = current.toISOString().split('T')[0];
     dates.push(dateStr);
     dateMap.set(dateStr, { in: 0, out: 0 });
+    current.setDate(current.getDate() + 1);
   }
 
   for (const m of movements) {
@@ -125,8 +150,13 @@ function processMovementsByDay(
     }
   }
 
+  const isWideRange = dates.length > 31;
   const labels = dates.map((d) => {
     const date = new Date(d);
+    if (isWideRange) {
+      // Show month if range is wide
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: dates.length > 365 ? '2-digit' : undefined });
+    }
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   });
   const stockIn = dates.map((d) => dateMap.get(d)?.in || 0);

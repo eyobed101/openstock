@@ -1,7 +1,28 @@
-import { eq, sql, lte, desc } from 'drizzle-orm';
+import { eq, sql, lte, desc, and, gte } from 'drizzle-orm';
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   const db = useDB();
+  const query = getQuery(event);
+
+  // Default to last 30 days if no dates provided
+  const now = new Date();
+  const defaultStart = new Date();
+  defaultStart.setDate(now.getDate() - 30);
+
+  const startDateStr = (query.startDate as string) || defaultStart.toISOString().split('T')[0];
+  const endDateStr = (query.endDate as string) || now.toISOString().split('T')[0];
+
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
+  endDate.setHours(23, 59, 59, 999);
+
+  const startUnix = Math.floor(startDate.getTime() / 1000);
+  const endUnix = Math.floor(endDate.getTime() / 1000);
+
+  const dateFilter = and(
+    sql`${tables.stockMovements.createdAt} >= ${startUnix}`,
+    sql`${tables.stockMovements.createdAt} <= ${endUnix}`
+  );
 
   const totalProductsResult = await db
     .select({ count: sql<number>`count(*)` })
@@ -34,6 +55,7 @@ export default defineEventHandler(async () => {
     Math.round((stockValueResult[0]?.total ?? 0) * 100) / 100;
 
   const recentMovements = await db.query.stockMovements.findMany({
+    where: dateFilter,
     limit: 5,
     orderBy: [desc(tables.stockMovements.createdAt)],
     with: {
@@ -48,5 +70,9 @@ export default defineEventHandler(async () => {
     totalStockValue,
     lowStockProducts,
     recentMovements,
+    range: {
+      start: startDateStr,
+      end: endDateStr
+    }
   };
 });
