@@ -3,8 +3,21 @@ import type { StockMovement } from '~~/server/database/schema';
 
 const toast = useToast();
 
-// Fetch movements
-const { data: movements, pending, refresh } = await useFetch('/api/movements');
+// Pagination state
+const page = ref(1);
+const limit = ref(20);
+
+// Fetch movements with pagination
+const { data: movementsResponse, pending, refresh } = await useFetch('/api/movements', {
+  query: {
+    page,
+    limit,
+  },
+  watch: [page, limit],
+});
+
+const movements = computed(() => movementsResponse.value?.data || []);
+const pagination = computed(() => movementsResponse.value?.pagination || { page: 1, limit: 20, total: 0, totalPages: 0 });
 
 // Modal state
 const isModalOpen = ref(false);
@@ -32,7 +45,7 @@ const filters = reactive({
 });
 
 const filteredMovements = computed(() => {
-  if (!movements.value) return [];
+  if (!movements.value || movements.value.length === 0) return [];
 
   return movements.value.filter((movement) => {
     // Filter by type
@@ -70,6 +83,12 @@ const filteredMovements = computed(() => {
     return true;
   });
 });
+
+function handlePageChange(newPage: number) {
+  page.value = newPage;
+  // Scroll to top of table
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function clearFilters() {
   filters.search = '';
@@ -400,6 +419,15 @@ function formatDate(date: Date | string) {
           </div>
         </template>
       </UiDataTable>
+      
+      <!-- Pagination -->
+      <UiPagination
+        :current-page="pagination.page"
+        :total-pages="pagination.totalPages"
+        :total-items="pagination.total"
+        :items-per-page="pagination.limit"
+        @page-change="handlePageChange"
+      />
     </div>
 
     <!-- Create Modal -->
