@@ -78,7 +78,8 @@ interface SearchResult {
 
 const searchResults = ref<SearchResult[]>([]);
 
-const { data: products } = useFetch('/api/products');
+const { data: productsResponse } = useFetch('/api/products', { query: { limit: 100 } });
+const products = computed(() => productsResponse.value?.data || []);
 const { data: suppliers } = useFetch('/api/suppliers');
 const { data: categories } = useFetch('/api/categories');
 

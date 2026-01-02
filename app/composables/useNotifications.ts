@@ -13,13 +13,20 @@ const readGeneratedIds = ref<Set<string>>(new Set());
 
 export function useNotifications() {
   // Fetch products to check for low stock
-  const { data: products, refresh: refreshProducts } = useFetch(
+  // We fetch a large number to ensure we catch most low stock alerts in the background
+  const { data: productsResponse, refresh: refreshProducts } = useFetch<{
+    data: any[];
+    pagination: any;
+  }>(
     '/api/products',
     {
       key: 'notifications-products',
       lazy: true,
+      query: { limit: 100 },
     }
   );
+
+  const products = computed(() => productsResponse.value?.data || []);
 
   // Generate notifications from products (low stock alerts)
   const generatedNotifications = computed(() => {

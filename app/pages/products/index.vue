@@ -15,13 +15,56 @@ function navigateToProduct(id: string) {
   router.push(`/products/${id}`);
 }
 
+// Pagination & Filtering state
+const page = ref(1);
+const limit = ref(20);
+const filters = reactive({
+  search: '',
+  categoryId: '',
+  isActive: true,
+});
+
 const {
-  data: products,
+  data: productsResponse,
   pending,
   refresh,
-} = await useFetch<
-  (Product & { variants?: DBProductVariant[]; category?: Category })[]
->('/api/products');
+} = await useFetch<{
+  data: (Product & { variants?: DBProductVariant[]; category?: Category })[];
+  pagination: { page: number; limit: number; total: number; totalPages: number };
+}>('/api/products', {
+  query: computed(() => ({
+    page: page.value,
+    limit: limit.value,
+    search: filters.search || undefined,
+    categoryId: filters.categoryId || undefined,
+    isActive: filters.isActive,
+  })),
+  watch: [page, limit],
+});
+
+const products = computed(() => productsResponse.value?.data || []);
+const pagination = computed(() => productsResponse.value?.pagination || { page: 1, limit: 20, total: 0, totalPages: 0 });
+
+function handlePageChange(newPage: number) {
+  page.value = newPage;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function clearFilters() {
+  filters.search = '';
+  filters.categoryId = '';
+  page.value = 1;
+  refresh();
+}
+
+function applyFilters() {
+  page.value = 1;
+  // useFetch watches the query so it will auto-refetch
+}
+
+const hasActiveFilters = computed(() => {
+  return filters.search || filters.categoryId !== '';
+});
 
 const isModalOpen = ref(false);
 const editingProduct = ref<Product | null>(null);
@@ -457,7 +500,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
 <template>
   <div class="space-y-6">
-    <div class="flex items-end justify-between border-b border-gray-200 pb-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
           Products
@@ -470,6 +513,81 @@ function getSupplierName(supplierId: string | null | undefined) {
         <Icon name="lucide:plus" class="mr-2 h-4 w-4" />
         New Product
       </UiButton>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 bg-gray-50 rounded-lg text-gray-500">
+            <Icon name="lucide:filter" class="h-4 w-4" />
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">Search & Filters</h3>
+        </div>
+        <button
+          v-if="hasActiveFilters"
+          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 shadow-sm"
+          @click="clearFilters"
+        >
+          <Icon name="lucide:rotate-ccw" class="h-3.5 w-3.5" />
+          Clear All
+        </button>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <!-- Search -->
+        <div class="flex-1">
+          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Search Products</label>
+          <div class="relative">
+            <Icon name="lucide:search" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <input
+              v-model="filters.search"
+              type="text"
+              placeholder="Search by name or SKU..."
+              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+              @input="applyFilters"
+            />
+          </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="w-full md:w-64">
+          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Category</label>
+          <div class="relative">
+            <Icon name="lucide:layers" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <select
+              v-model="filters.categoryId"
+              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              @change="applyFilters"
+            >
+              <option value="">All Categories</option>
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+              >
+                {{ category.name }}
+              </option>
+            </select>
+            <Icon name="lucide:chevron-down" class="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results info -->
+      <div v-if="productsResponse" class="flex items-center justify-between pt-3 border-t border-gray-100">
+        <div class="flex items-center gap-2 text-xs text-gray-500">
+          <Icon name="lucide:info" class="h-3.5 w-3.5" />
+          <span>Showing {{ pagination.page * pagination.limit - pagination.limit + 1 }}-{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }} products</span>
+        </div>
+        <button
+          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-3 py-1.5 rounded-lg transition-colors"
+          @click="refresh"
+        >
+          <Icon name="lucide:refresh-cw" class="h-3.5 w-3.5" :class="{ 'animate-spin': pending }" />
+          Reload Data
+        </button>
+      </div>
     </div>
 
     <!-- Custom Accordion Table -->
@@ -816,6 +934,17 @@ function getSupplierName(supplierId: string | null | undefined) {
             </template>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div v-if="pagination.totalPages > 1" class="border-t border-gray-100 bg-gray-50/50 px-4 py-3">
+        <UiPagination
+          :current-page="pagination.page"
+          :total-pages="pagination.totalPages"
+          :total-items="pagination.total"
+          :items-per-page="pagination.limit"
+          @page-change="handlePageChange"
+        />
       </div>
     </div>
 

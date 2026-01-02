@@ -47,7 +47,8 @@ const form = reactive({
 });
 
 // Fetch products and suppliers for dropdowns
-const { data: products } = await useFetch('/api/products');
+const { data: productsResponse } = await useFetch('/api/products', { query: { limit: 100 } });
+const products = computed(() => productsResponse.value?.data || []);
 const { data: suppliers } = await useFetch('/api/suppliers');
 
 // Since filtering is now server-side, just return movements as-is
