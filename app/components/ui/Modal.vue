@@ -5,7 +5,7 @@ interface Props {
   open: boolean;
   title: string;
   description?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,6 +23,9 @@ const sizeClasses = computed(() => {
     lg: 'max-w-lg',
     xl: 'max-w-xl',
     '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
   };
   return sizes[props.size];
 });
@@ -68,7 +71,7 @@ onUnmounted(() => {
     >
       <div
         v-if="open"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+        class="fixed inset-0 z-50 flex items-center justify-center px-2 sm:p-6"
         role="dialog"
         aria-modal="true"
       >
