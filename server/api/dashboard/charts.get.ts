@@ -8,17 +8,22 @@ export default defineEventHandler(async () => {
 
   const movementsByDay = await db
     .select({
-      date: sql<string>`date(${tables.stockMovements.createdAt} / 1000, 'unixepoch')`,
+      date: sql<string>`date(${tables.stockMovements.createdAt}, 'unixepoch')`,
       type: tables.stockMovements.type,
       totalQuantity: sql<number>`SUM(ABS(${tables.stockMovements.quantity}))`,
     })
     .from(tables.stockMovements)
-    .where(gte(tables.stockMovements.createdAt, thirtyDaysAgo))
+    .where(
+      gte(
+        tables.stockMovements.createdAt,
+        sql`${Math.floor(thirtyDaysAgo.getTime() / 1000)}`
+      )
+    )
     .groupBy(
-      sql`date(${tables.stockMovements.createdAt} / 1000, 'unixepoch')`,
+      sql`date(${tables.stockMovements.createdAt}, 'unixepoch')`,
       tables.stockMovements.type
     )
-    .orderBy(sql`date(${tables.stockMovements.createdAt} / 1000, 'unixepoch')`);
+    .orderBy(sql`date(${tables.stockMovements.createdAt}, 'unixepoch')`);
 
   const movementsChartData = processMovementsByDay(movementsByDay);
 
