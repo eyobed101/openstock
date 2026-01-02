@@ -7,12 +7,25 @@ const toast = useToast();
 const page = ref(1);
 const limit = ref(20);
 
+// Filters - must be defined before useFetch
+const filters = reactive({
+  search: '',
+  type: '' as '' | 'in' | 'out' | 'adjustment',
+  productId: '',
+  startDate: '',
+  endDate: '',
+});
+
 // Fetch movements with pagination
 const { data: movementsResponse, pending, refresh } = await useFetch('/api/movements', {
-  query: {
-    page,
-    limit,
-  },
+  query: computed(() => ({
+    page: page.value,
+    limit: limit.value,
+    type: filters.type || undefined,
+    productId: filters.productId || undefined,
+    startDate: filters.startDate || undefined,
+    endDate: filters.endDate || undefined,
+  })),
   watch: [page, limit],
 });
 
@@ -37,52 +50,8 @@ const form = reactive({
 const { data: products } = await useFetch('/api/products');
 const { data: suppliers } = await useFetch('/api/suppliers');
 
-// Filters
-const filters = reactive({
-  search: '',
-  type: '' as '' | 'in' | 'out' | 'adjustment',
-  productId: '',
-});
-
-const filteredMovements = computed(() => {
-  if (!movements.value || movements.value.length === 0) return [];
-
-  return movements.value.filter((movement) => {
-    // Filter by type
-    if (filters.type && movement.type !== filters.type) {
-      return false;
-    }
-
-    // Filter by product
-    if (filters.productId && movement.productId !== filters.productId) {
-      return false;
-    }
-
-    // Filter by search (reference, reason, product name)
-    if (filters.search) {
-      const search = filters.search.toLowerCase();
-      const matchesReference = movement.reference
-        ?.toLowerCase()
-        .includes(search);
-      const matchesReason = movement.reason?.toLowerCase().includes(search);
-      const matchesProduct = movement.product?.name
-        ?.toLowerCase()
-        .includes(search);
-      const matchesSku = movement.product?.sku?.toLowerCase().includes(search);
-
-      if (
-        !matchesReference &&
-        !matchesReason &&
-        !matchesProduct &&
-        !matchesSku
-      ) {
-        return false;
-      }
-    }
-
-    return true;
-  });
-});
+// Since filtering is now server-side, just return movements as-is
+const filteredMovements = computed(() => movements.value || []);
 
 function handlePageChange(newPage: number) {
   page.value = newPage;
@@ -94,10 +63,19 @@ function clearFilters() {
   filters.search = '';
   filters.type = '';
   filters.productId = '';
+  filters.startDate = '';
+  filters.endDate = '';
+  page.value = 1;
+  refresh();
+}
+
+function applyFilters() {
+  page.value = 1;
+  refresh();
 }
 
 const hasActiveFilters = computed(() => {
-  return filters.search || filters.type || filters.productId;
+  return filters.search || filters.type || filters.productId || filters.startDate || filters.endDate;
 });
 
 // Table columns
@@ -266,62 +244,106 @@ function formatDate(date: Date | string) {
     </div>
 
     <!-- Filters -->
-    <div class="card p-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <!-- Search -->
-        <div class="relative flex-1 min-w-[200px]">
-          <Icon
-            name="lucide:search"
-            class="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
-          />
-          <input
-            v-model="filters.search"
-            type="text"
-            placeholder="Search reference, product..."
-            class="input pl-8 h-8 text-xs"
-          />
+    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 bg-gray-50 rounded-lg text-gray-500">
+            <Icon name="lucide:filter" class="h-4 w-4" />
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">Search & Filters</h3>
+        </div>
+        <button
+          v-if="hasActiveFilters"
+          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 shadow-sm"
+          @click="clearFilters"
+        >
+          <Icon name="lucide:rotate-ccw" class="h-3.5 w-3.5" />
+          Clear All
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Date Range -->
+        <div class="lg:col-span-2">
+          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Date Range</label>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="relative">
+              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <input
+                v-model="filters.startDate"
+                type="date"
+                class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                @change="applyFilters"
+              />
+            </div>
+            <div class="relative">
+              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <input
+                v-model="filters.endDate"
+                type="date"
+                class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                @change="applyFilters"
+              />
+            </div>
+          </div>
         </div>
 
         <!-- Type filter -->
-        <select
-          v-model="filters.type"
-          class="input h-8 text-xs w-auto min-w-[120px]"
-        >
-          <option value="">All types</option>
-          <option value="in">Stock In</option>
-          <option value="out">Stock Out</option>
-          <option value="adjustment">Adjustment</option>
-        </select>
+        <div>
+          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Movement Type</label>
+          <div class="relative">
+            <Icon name="lucide:list" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <select
+              v-model="filters.type"
+              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              @change="applyFilters"
+            >
+              <option value="">All Types</option>
+              <option value="in">Stock In</option>
+              <option value="out">Stock Out</option>
+              <option value="adjustment">Adjustment</option>
+            </select>
+            <Icon name="lucide:chevron-down" class="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
 
         <!-- Product filter -->
-        <select
-          v-model="filters.productId"
-          class="input h-8 text-xs w-auto min-w-[150px]"
-        >
-          <option value="">All products</option>
-          <option
-            v-for="product in products"
-            :key="product.id"
-            :value="product.id"
-          >
-            {{ product.name }}
-          </option>
-        </select>
+        <div>
+          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Select Product</label>
+          <div class="relative">
+            <Icon name="lucide:package" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <select
+              v-model="filters.productId"
+              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              @change="applyFilters"
+            >
+              <option value="">All Products</option>
+              <option
+                v-for="product in products"
+                :key="product.id"
+                :value="product.id"
+              >
+                {{ product.name }}
+              </option>
+            </select>
+            <Icon name="lucide:chevron-down" class="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
+      </div>
 
-        <!-- Clear filters -->
+      <!-- Results info -->
+      <div v-if="movements" class="flex items-center justify-between pt-3 border-t border-gray-100">
+        <div class="flex items-center gap-2 text-xs text-gray-500">
+          <Icon name="lucide:info" class="h-3.5 w-3.5" />
+          <span>Showing {{ pagination.page * pagination.limit - pagination.limit + 1 }}-{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }} records</span>
+        </div>
         <button
-          v-if="hasActiveFilters"
-          class="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700"
-          @click="clearFilters"
+          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-3 py-1.5 rounded-lg transition-colors"
+          @click="refresh"
         >
-          <Icon name="lucide:x" class="h-3.5 w-3.5" />
-          Clear
+          <Icon name="lucide:refresh-cw" class="h-3.5 w-3.5" :class="{ 'animate-spin': pending }" />
+          Reload Data
         </button>
-
-        <!-- Results count -->
-        <span v-if="movements" class="text-xs text-gray-400 ml-auto">
-          {{ filteredMovements.length }} of {{ movements.length }} movements
-        </span>
       </div>
     </div>
 
