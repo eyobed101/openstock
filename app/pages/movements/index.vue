@@ -137,6 +137,27 @@ function resetForm() {
   });
 }
 
+// Get selected product details
+const selectedProduct = computed(() => {
+  if (!form.productId || !products.value) return null;
+  return products.value.find(p => p.id === form.productId);
+});
+
+// Calculate stock after movement
+const stockAfterMovement = computed(() => {
+  if (!selectedProduct.value) return null;
+  const currentStock = selectedProduct.value.stockQuantity || 0;
+  const qty = form.quantity || 0;
+  
+  if (form.type === 'in') {
+    return currentStock + qty;
+  } else if (form.type === 'out') {
+    return currentStock - qty;
+  } else {
+    return currentStock; // adjustment will be handled differently
+  }
+});
+
 async function createMovement() {
   if (!form.productId) {
     toast.warning('Select a product');
@@ -425,6 +446,44 @@ function formatDate(date: Date | string) {
               </select>
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+              </div>
+            </div>
+            
+            <!-- Stock Information Display -->
+            <div v-if="selectedProduct" class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center gap-2">
+                  <Icon name="lucide:package" class="h-4 w-4 text-blue-600" />
+                  <span class="font-medium text-blue-900">Current Stock:</span>
+                </div>
+                <span class="font-mono font-bold text-blue-700">{{ selectedProduct.stockQuantity }}</span>
+              </div>
+              
+              <div v-if="form.quantity > 0 && (form.type === 'in' || form.type === 'out')" class="mt-2 pt-2 border-t border-blue-200 flex items-center justify-between text-sm">
+                <div class="flex items-center gap-2">
+                  <Icon 
+                    :name="form.type === 'in' ? 'lucide:arrow-down' : 'lucide:arrow-up'" 
+                    class="h-4 w-4"
+                    :class="form.type === 'in' ? 'text-green-600' : 'text-red-600'"
+                  />
+                  <span class="font-medium text-blue-900">After {{ form.type === 'in' ? 'Stock In' : 'Stock Out' }}:</span>
+                </div>
+                <span 
+                  class="font-mono font-bold"
+                  :class="stockAfterMovement < 0 ? 'text-red-600' : stockAfterMovement < (selectedProduct.stockMin || 0) ? 'text-amber-600' : 'text-green-600'"
+                >
+                  {{ stockAfterMovement }}
+                </span>
+              </div>
+              
+              <div v-if="form.type === 'out' && stockAfterMovement < 0" class="mt-2 flex items-start gap-2 text-xs text-red-700">
+                <Icon name="lucide:alert-triangle" class="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                <span>Warning: This will result in negative stock!</span>
+              </div>
+              
+              <div v-if="stockAfterMovement < (selectedProduct.stockMin || 0) && stockAfterMovement >= 0" class="mt-2 flex items-start gap-2 text-xs text-amber-700">
+                <Icon name="lucide:alert-circle" class="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                <span>Notice: Stock will be below minimum level ({{ selectedProduct.stockMin }})</span>
               </div>
             </div>
           </div>
