@@ -3,7 +3,7 @@ const { settings } = useSettings();
 
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${settings.value?.businessName || 'OpenStock'}` : settings.value?.businessName || 'OpenStock';
+    return titleChunk ? `${titleChunk} - ${settings.value?.businessName || 'MezgebStock'}` : settings.value?.businessName || 'MezgebStock';
   }
 });
 </script>

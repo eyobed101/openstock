@@ -27,7 +27,7 @@ export interface Settings {
 // Transform API response to frontend shape
 function transformFromApi(api: ApiSettings): Settings {
   return {
-    businessName: api.businessName ?? 'OpenStock Inc.',
+    businessName: api.businessName ?? 'MezgebStock Inc.',
     currency: (api.currency as Settings['currency']) ?? 'ETB',
     theme: (api.theme as Settings['theme']) ?? 'light',
     defaultMargin: api.defaultMargin ?? 30,

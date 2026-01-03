@@ -71,7 +71,7 @@ async function handleSubmit() {
           >
             <Icon name="lucide:package" class="w-6 h-6 text-primary-600" />
           </div>
-          <h1 class="text-2xl font-bold text-gray-900">Welcome to OpenStock</h1>
+          <h1 class="text-2xl font-bold text-gray-900">Welcome to MezgebStock</h1>
           <p class="text-sm text-gray-500 mt-2">
             Create your administrator account to get started
           </p>

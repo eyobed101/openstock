@@ -1,4 +1,4 @@
-# OpenStock
+# MezgebStock
 
 A modern, self-hosted inventory and stock management system built with Nuxt 4 and Cloudflare.
 

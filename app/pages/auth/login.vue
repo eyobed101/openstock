@@ -61,7 +61,7 @@ async function handleSubmit() {
           </div>
           <h1 class="text-2xl font-bold text-gray-900">Welcome back</h1>
           <p class="text-sm text-gray-500 mt-2">
-            Sign in to your OpenStock account
+            Sign in to your MezgebStock account
           </p>
         </div>
 

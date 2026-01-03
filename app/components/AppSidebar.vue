@@ -79,13 +79,13 @@ watch(
         :class="[isCollapsed ? 'justify-center px-0' : 'gap-3 px-6']"
       >
         <div
-          class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-bluerain-500 text-white shadow-lg shadow-bluerain-500/20"
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 p-1  backdrop-blur-md border border-white/20"
         >
-          <Icon name="lucide:boxes" class="h-5 w-5" />
+          <img src="/logo.png" alt="MezgebStock Logo" class="h-full w-full object-contain" />
         </div>
         <div v-if="!isCollapsed" class="flex flex-col animate-in fade-in duration-500">
-          <span class="text-sm font-bold tracking-tight text-gray-900 dark:text-white">OpenStock</span>
-          <span class="text-[10px] font-medium text-gray-500 dark:text-bluerain-300 uppercase tracking-wider">Inventory</span>
+          <span class="text-sm font-bold tracking-tight text-gray-900 dark:text-white">MezgebStock</span>
+          <span class="text-[10px] font-medium text-gray-500 dark:text-bluerain-300 uppercase tracking-wider">Track Smart</span>
         </div>
       </div>
 

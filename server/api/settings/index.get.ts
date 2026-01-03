@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   // If not found, create default
   const [newSettings] = await db.insert(settings).values({
     id: 1,
-    businessName: 'OpenStock Inc.',
+    businessName: 'MezgebStock Inc.',
     currency: 'EUR',
     defaultMargin: 30,
     lowStockAlert: true,
