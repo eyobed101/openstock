@@ -167,10 +167,10 @@ function formatDate(date: string): string {
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Users
         </h1>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Manage user accounts and access levels.
         </p>
       </div>
@@ -180,28 +180,28 @@ function formatDate(date: string): string {
       </UiButton>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm">
       <div class="overflow-x-auto">
         <table class="w-full">
           <thead>
-            <tr class="bg-gray-50 border-b border-gray-200">
+            <tr class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800">
               <th
-                class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider"
               >
                 User
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider"
               >
                 Role
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider"
               >
                 Status
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider"
               >
                 Created
               </th>
@@ -212,28 +212,28 @@ function formatDate(date: string): string {
             <tr
               v-for="user in users"
               :key="user.id"
-              class="hover:bg-gray-50/50 transition-colors"
+              class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0"
             >
               <td class="px-4 py-3">
                 <div>
-                  <p class="text-sm font-medium text-gray-900">
+                  <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
                     {{ user.name }}
                     <span
                       v-if="user.id === currentUser?.id"
-                      class="text-xs text-gray-400 ml-1"
+                      class="text-xs text-gray-400 dark:text-gray-500 ml-1"
                       >(you)</span
                     >
                   </p>
-                  <p class="text-xs text-gray-500">{{ user.email }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ user.email }}</p>
                 </div>
               </td>
               <td class="px-4 py-3">
                 <span
                   class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
                   :class="{
-                    'bg-purple-100 text-purple-700': user.role === 'admin',
-                    'bg-blue-100 text-blue-700': user.role === 'member',
-                    'bg-amber-100 text-amber-700': user.role === 'viewer',
+                    'bg-purple-100 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400': user.role === 'admin',
+                    'bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400': user.role === 'member',
+                    'bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400': user.role === 'viewer',
                   }"
                 >
                   {{
@@ -250,21 +250,21 @@ function formatDate(date: string): string {
                   class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
                   :class="
                     user.isActive
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-red-100 text-red-700'
+                      ? 'bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400'
+                      : 'bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-400'
                   "
                 >
                   {{ user.isActive ? 'Active' : 'Inactive' }}
                 </span>
               </td>
-              <td class="px-4 py-3 text-sm text-gray-500">
+              <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                 {{ formatDate(user.createdAt) }}
               </td>
               <td class="px-4 py-3 text-right">
                 <div class="flex items-center justify-end gap-2">
                   <button
                     @click="openEditModal(user)"
-                    class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                    class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                     title="Edit user"
                   >
                     <Icon name="lucide:pencil" class="w-4 h-4" />
@@ -272,7 +272,7 @@ function formatDate(date: string): string {
                   <button
                     v-if="user.id !== currentUser?.id && user.role !== 'admin'"
                     @click="deleteUser(user)"
-                    class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                    class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-md transition-colors"
                     title="Delete user"
                   >
                     <Icon name="lucide:trash-2" class="w-4 h-4" />
@@ -319,18 +319,18 @@ function formatDate(date: string): string {
         />
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1.5">
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-wide">
             Role
           </label>
           <select
             v-model="form.role"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 rounded-lg text-sm dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             :disabled="isSubmitting"
           >
             <option value="member">Member (Full access)</option>
             <option value="viewer">Viewer (Read-only)</option>
           </select>
-          <p class="mt-1 text-xs text-gray-500">
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
             Members can create and modify data. Viewers have read-only access.
           </p>
         </div>
@@ -385,26 +385,26 @@ function formatDate(date: string): string {
             type="checkbox"
             v-model="editForm.isActive"
             id="isActive"
-            class="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+            class="h-4 w-4 rounded border-gray-300 dark:border-gray-700 dark:bg-gray-950 dark:checked:bg-primary-500 text-primary-600 focus:ring-primary-500"
           />
-          <label for="isActive" class="text-sm text-gray-700">
+          <label for="isActive" class="text-sm text-gray-700 dark:text-gray-300">
             Account is active
           </label>
         </div>
 
         <div v-if="editingUser?.role !== 'admin'">
-          <label class="block text-sm font-medium text-gray-700 mb-1.5">
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-wide">
             Role
           </label>
           <select
             v-model="editForm.role"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 rounded-lg text-sm dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             :disabled="isSubmitting"
           >
             <option value="member">Member (Full access)</option>
             <option value="viewer">Viewer (Read-only)</option>
           </select>
-          <p class="mt-1 text-xs text-gray-500">
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
             Members can create and modify data. Viewers have read-only access.
           </p>
         </div>

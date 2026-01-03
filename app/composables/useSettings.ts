@@ -8,12 +8,14 @@ interface ApiSettings {
   outOfStockAlert: boolean | number | null;
   emailDailyReport: boolean | number | null;
   updatedAt: string | null;
+  theme: string | null;
 }
 
 // Frontend shape (nested for UI)
 export interface Settings {
   businessName: string;
   currency: 'EUR' | 'USD' | 'GBP' | 'ETB';
+  theme: 'light' | 'dark';
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -27,6 +29,7 @@ function transformFromApi(api: ApiSettings): Settings {
   return {
     businessName: api.businessName ?? 'OpenStock Inc.',
     currency: (api.currency as Settings['currency']) ?? 'ETB',
+    theme: (api.theme as Settings['theme']) ?? 'light',
     defaultMargin: api.defaultMargin ?? 30,
     stockAlerts: {
       lowStock: Boolean(api.lowStockAlert),
@@ -41,6 +44,7 @@ function transformToApi(settings: Settings): Partial<ApiSettings> {
   return {
     businessName: settings.businessName,
     currency: settings.currency,
+    theme: settings.theme,
     defaultMargin: settings.defaultMargin,
     lowStockAlert: settings.stockAlerts.lowStock,
     outOfStockAlert: settings.stockAlerts.outOfStock,
@@ -59,6 +63,19 @@ export const useSettings = () => {
     if (!rawSettings.value) return null;
     return transformFromApi(rawSettings.value);
   });
+
+  // Watch theme and apply class
+  watch(() => settings.value?.theme, (newTheme) => {
+    if (import.meta.client) {
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = 'dark';
+      } else if (newTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.style.colorScheme = 'light';
+      }
+    }
+  }, { immediate: true });
 
   const currencySymbol = computed(() => {
     switch (settings.value?.currency) {
@@ -90,6 +107,15 @@ export const useSettings = () => {
     }
   });
 
+  async function toggleTheme() {
+    if (!settings.value) return;
+    const newTheme = settings.value.theme === 'light' ? 'dark' : 'light';
+    await updateSettings({
+      ...settings.value,
+      theme: newTheme,
+    });
+  }
+
   async function updateSettings(newSettings: Settings) {
     try {
       await $fetch('/api/settings', {
@@ -109,6 +135,7 @@ export const useSettings = () => {
     currencySymbol,
     currencyIcon,
     updateSettings,
+    toggleTheme,
     refresh,
   };
 };

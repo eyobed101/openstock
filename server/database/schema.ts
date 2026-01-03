@@ -447,6 +447,7 @@ export const settings = sqliteTable('settings', {
   emailDailyReport: integer('email_daily_report', { mode: 'boolean' }).default(
     false
   ),
+  theme: text('theme').default('light'),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(
     () => new Date()
   ),

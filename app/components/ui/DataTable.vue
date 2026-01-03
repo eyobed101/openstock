@@ -35,16 +35,16 @@ defineSlots<{
 
 <template>
   <div
-    class="w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm ring-1 ring-gray-900/5"
+    class="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
   >
     <div class="overflow-x-auto">
       <table class="w-full text-left text-sm whitespace-nowrap">
-        <thead class="bg-gray-50 border-b border-gray-200">
+        <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <tr>
             <th
               v-for="column in columns"
               :key="column.key"
-              class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 select-none"
+              class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 select-none"
               :class="[
                 column.headerClass,
                 column.width,
@@ -63,22 +63,22 @@ defineSlots<{
                 <Icon
                   v-if="column.sortable"
                   name="lucide:arrow-up-down"
-                  class="h-3 w-3 text-gray-300 transition-colors group-hover:text-gray-600"
+                  class="h-3 w-3 text-gray-300 dark:text-gray-600 transition-colors group-hover:text-gray-600 dark:group-hover:text-gray-300"
                 />
               </div>
             </th>
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-gray-100 bg-white">
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900">
           <tr v-if="loading">
             <td :colspan="columns.length" class="h-32 text-center">
               <div class="flex flex-col items-center justify-center gap-3">
                 <Icon
                   name="lucide:loader-2"
-                  class="h-5 w-5 animate-spin text-gray-900"
+                  class="h-5 w-5 animate-spin text-gray-900 dark:text-gray-100"
                 />
-                <span class="text-xs font-medium text-gray-500 animate-pulse"
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 animate-pulse"
                   >Loading data...</span
                 >
               </div>
@@ -89,15 +89,15 @@ defineSlots<{
             <td :colspan="columns.length" class="p-0">
               <slot name="empty">
                 <div
-                  class="flex flex-col items-center justify-center py-12 text-center bg-gray-50/30"
+                  class="flex flex-col items-center justify-center py-12 text-center bg-gray-50/30 dark:bg-gray-800/10"
                 >
-                  <div class="rounded-full bg-gray-100 p-3 mb-3">
-                    <Icon :name="emptyIcon" class="h-5 w-5 text-gray-400" />
+                  <div class="rounded-full bg-gray-100 dark:bg-gray-800 p-3 mb-3">
+                    <Icon :name="emptyIcon" class="h-5 w-5 text-gray-400 dark:text-gray-500" />
                   </div>
-                  <h3 class="text-sm font-medium text-gray-900">
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                     {{ emptyTitle }}
                   </h3>
-                  <p class="mt-1 text-xs text-gray-500">
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     {{ emptyDescription }}
                   </p>
                 </div>
@@ -110,12 +110,12 @@ defineSlots<{
               v-for="(item, index) in data"
               :key="item.id || index"
               class="group transition-colors duration-150 ease-in-out"
-              :class="[hoverable ? 'hover:bg-gray-50' : '']"
+              :class="[hoverable ? 'hover:bg-gray-50 dark:hover:bg-gray-800/50' : '']"
             >
               <td
                 v-for="column in columns"
                 :key="column.key"
-                class="h-10 px-4 py-2 text-sm text-gray-600"
+                class="h-10 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 font-normal"
                 :class="[
                   column.class,
                   column.align === 'right' ? 'text-right' : 'text-left',
@@ -123,7 +123,7 @@ defineSlots<{
                 ]"
               >
                 <slot :name="column.key" :item="item" :index="index">
-                  <span :class="{ 'font-medium text-gray-900': index === 0 }">
+                  <span :class="{ 'font-medium text-gray-900 dark:text-gray-100': index === 0 }">
                     {{ item[column.key] }}
                   </span>
                 </slot>

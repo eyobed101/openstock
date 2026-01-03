@@ -177,6 +177,7 @@ export default defineEventHandler(async (event) => {
       low_stock_alert integer DEFAULT 1,
       out_of_stock_alert integer DEFAULT 1,
       email_daily_report integer DEFAULT 0,
+      theme text DEFAULT 'light',
       updated_at integer
     )`,
   ];
@@ -188,6 +189,7 @@ export default defineEventHandler(async (event) => {
     `ALTER TABLE product_variants ADD COLUMN stock_max integer`,
     `ALTER TABLE product_variants ADD COLUMN supplier_id text REFERENCES suppliers(id)`,
     `ALTER TABLE supplier_prices ADD COLUMN purchase_url text`,
+    `ALTER TABLE settings ADD COLUMN theme text DEFAULT 'light'`,
   ];
 
   const results: string[] = [];

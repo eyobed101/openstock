@@ -9,6 +9,7 @@ const isDev = import.meta.dev;
 const settings = ref<{
   businessName: string;
   currency: 'EUR' | 'USD' | 'GBP' | 'ETB';
+  theme: 'light' | 'dark';
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -78,21 +79,21 @@ async function saveSettings() {
 }
 
 const ui = {
-  card: 'bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden',
+  card: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm overflow-hidden',
   cardHeader:
-    'px-4 py-3 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between',
-  cardTitle: 'text-xs font-bold text-gray-700 uppercase tracking-wider',
+    'px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex items-center justify-between',
+  cardTitle: 'text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider',
   cardBody: 'p-5',
   label:
-    'block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5',
+    'block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5',
   input:
-    'block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-9 placeholder:text-gray-300 transition-shadow',
+    'block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm focus:border-gray-900 dark:focus:border-primary-500 focus:ring-gray-900 dark:focus:ring-primary-500 sm:text-sm h-9 placeholder:text-gray-300 dark:placeholder:text-gray-600 transition-shadow',
   inputSelect:
-    'block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-9 bg-white',
+    'block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm focus:border-gray-900 dark:focus:border-primary-500 focus:ring-gray-900 dark:focus:ring-primary-500 sm:text-sm h-9',
   switchBase:
-    'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2',
-  switchActive: 'bg-gray-900',
-  switchInactive: 'bg-gray-200',
+    'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900',
+  switchActive: 'bg-gray-900 dark:bg-primary-600',
+  switchInactive: 'bg-gray-200 dark:bg-gray-700',
   switchKnob:
     'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
   switchKnobActive: 'translate-x-4',
@@ -152,6 +153,14 @@ const ui = {
                   <option value="EUR">Euro (€)</option>
                   <option value="USD">US Dollar ($)</option>
                   <option value="GBP">British Pound (£)</option>
+                </select>
+              </div>
+
+              <div>
+                <label :class="ui.label">App Theme</label>
+                <select v-model="settings.theme" :class="ui.inputSelect">
+                  <option value="light">Light Mode</option>
+                  <option value="dark">Dark Mode</option>
                 </select>
               </div>
 

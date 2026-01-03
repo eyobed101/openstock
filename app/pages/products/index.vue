@@ -356,18 +356,18 @@ function getStockStatus(product: Product & { variants?: ProductVariant[] }) {
 
   if (stock <= 0) {
     return {
-      class: 'text-red-600 bg-red-50 border-red-100',
+      class: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border-red-100 dark:border-red-900/50',
       label: 'Out of stock',
     };
   }
   if (stockMin && stock <= stockMin) {
     return {
-      class: 'text-amber-600 bg-amber-50 border-amber-100',
+      class: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border-amber-100 dark:border-amber-900/50',
       label: 'Low stock',
     };
   }
   return {
-    class: 'text-green-600 bg-green-50 border-green-100',
+    class: 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border-green-100 dark:border-green-900/50',
     label: 'In stock',
   };
 }
@@ -396,18 +396,18 @@ function getVariantStockStatus(variant: ProductVariant) {
   const stock = variant.stockQuantity || 0;
   if (stock <= 0) {
     return {
-      class: 'text-red-600 bg-red-50 border-red-100',
+      class: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border-red-100 dark:border-red-900/50',
       label: 'Out of stock',
     };
   }
   if (variant.stockMin && stock <= variant.stockMin) {
     return {
-      class: 'text-amber-600 bg-amber-50 border-amber-100',
+      class: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border-amber-100 dark:border-amber-900/50',
       label: 'Low stock',
     };
   }
   return {
-    class: 'text-green-600 bg-green-50 border-green-100',
+    class: 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border-green-100 dark:border-green-900/50',
     label: 'In stock',
   };
 }
@@ -500,12 +500,12 @@ function getSupplierName(supplierId: string | null | undefined) {
 
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 dark:border-gray-800 pb-4">
       <div>
-        <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
+        <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
           Products
         </h1>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Manage your inventory catalog and pricing strategies.
         </p>
       </div>
@@ -516,17 +516,17 @@ function getSupplierName(supplierId: string | null | undefined) {
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+    <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
         <div class="flex items-center gap-2">
-          <div class="p-1.5 bg-gray-50 rounded-lg text-gray-500">
+          <div class="p-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg text-gray-500 dark:text-gray-400">
             <Icon name="lucide:filter" class="h-4 w-4" />
           </div>
-          <h3 class="text-sm font-semibold text-gray-900">Search & Filters</h3>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Search & Filters</h3>
         </div>
         <button
           v-if="hasActiveFilters"
-          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 shadow-sm"
+          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-gray-700 shadow-sm"
           @click="clearFilters"
         >
           <Icon name="lucide:rotate-ccw" class="h-3.5 w-3.5" />
@@ -537,14 +537,14 @@ function getSupplierName(supplierId: string | null | undefined) {
       <div class="flex flex-col md:flex-row gap-4">
         <!-- Search -->
         <div class="flex-1">
-          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Search Products</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Search Products</label>
           <div class="relative">
-            <Icon name="lucide:search" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Icon name="lucide:search" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <input
               v-model="filters.search"
               type="text"
               placeholder="Search by name or SKU..."
-              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent dark:text-gray-100 dark:placeholder:text-gray-600"
               @input="applyFilters"
             />
           </div>
@@ -552,12 +552,12 @@ function getSupplierName(supplierId: string | null | undefined) {
 
         <!-- Category Filter -->
         <div class="w-full md:w-64">
-          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Category</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Category</label>
           <div class="relative">
-            <Icon name="lucide:layers" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Icon name="lucide:layers" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <select
               v-model="filters.categoryId"
-              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none dark:text-gray-100"
               @change="applyFilters"
             >
               <option value="">All Categories</option>
@@ -569,19 +569,19 @@ function getSupplierName(supplierId: string | null | undefined) {
                 {{ category.name }}
               </option>
             </select>
-            <Icon name="lucide:chevron-down" class="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Icon name="lucide:chevron-down" class="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
           </div>
         </div>
       </div>
 
       <!-- Results info -->
-      <div v-if="productsResponse" class="flex items-center justify-between pt-3 border-t border-gray-100">
-        <div class="flex items-center gap-2 text-xs text-gray-500">
+      <div v-if="productsResponse" class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
           <Icon name="lucide:info" class="h-3.5 w-3.5" />
           <span>Showing {{ pagination.page * pagination.limit - pagination.limit + 1 }}-{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }} products</span>
         </div>
         <button
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-3 py-1.5 rounded-lg transition-colors"
+          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-950/30 px-3 py-1.5 rounded-lg transition-colors"
           @click="refresh"
         >
           <Icon name="lucide:refresh-cw" class="h-3.5 w-3.5" :class="{ 'animate-spin': pending }" />
@@ -592,61 +592,61 @@ function getSupplierName(supplierId: string | null | undefined) {
 
     <!-- Custom Accordion Table -->
     <div
-      class="w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm ring-1 ring-gray-900/5"
+      class="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
     >
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm whitespace-nowrap">
-          <thead class="bg-gray-50 border-b border-gray-200">
+          <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <tr>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 w-8"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 w-8"
               ></th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
               >
                 Product
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
               >
                 SKU
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
               >
                 Category
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
               >
                 Stock
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
               >
                 Cost
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
               >
                 Price
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 w-20"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 w-20"
               ></th>
             </tr>
           </thead>
 
-          <tbody class="divide-y divide-gray-100 bg-white">
+          <tbody class="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900">
             <!-- Loading State -->
             <tr v-if="pending">
               <td colspan="8" class="h-32 text-center">
                 <div class="flex flex-col items-center justify-center gap-3">
                   <Icon
                     name="lucide:loader-2"
-                    class="h-5 w-5 animate-spin text-gray-900"
+                    class="h-5 w-5 animate-spin text-gray-900 dark:text-gray-100"
                   />
-                  <span class="text-xs font-medium text-gray-500 animate-pulse"
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400 animate-pulse"
                     >Loading data...</span
                   >
                 </div>
@@ -657,18 +657,18 @@ function getSupplierName(supplierId: string | null | undefined) {
             <tr v-else-if="!products?.length">
               <td colspan="8" class="p-0">
                 <div
-                  class="flex flex-col items-center justify-center py-12 text-center bg-gray-50/30"
+                  class="flex flex-col items-center justify-center py-12 text-center bg-gray-50/30 dark:bg-gray-800/10"
                 >
-                  <div class="rounded-full bg-gray-100 p-3 mb-3">
+                  <div class="rounded-full bg-gray-100 dark:bg-gray-800 p-3 mb-3">
                     <Icon
                       name="lucide:package-open"
-                      class="h-5 w-5 text-gray-400"
+                      class="h-5 w-5 text-gray-400 dark:text-gray-500"
                     />
                   </div>
-                  <h3 class="text-sm font-medium text-gray-900">
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                     Inventory empty
                   </h3>
-                  <p class="mt-1 text-xs text-gray-500">
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     Get started by adding your first product.
                   </p>
                 </div>
@@ -679,20 +679,20 @@ function getSupplierName(supplierId: string | null | undefined) {
             <template v-else v-for="(item, index) in products" :key="item.id">
               <!-- Main Product Row -->
               <tr
-                class="group transition-colors duration-150 ease-in-out hover:bg-gray-50"
-                :class="{ 'bg-gray-50/50': isExpanded(item.id) }"
+                class="group transition-colors duration-150 ease-in-out hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                :class="{ 'bg-gray-50/50 dark:bg-gray-800/30': isExpanded(item.id) }"
               >
                 <!-- Expand Button -->
                 <td class="h-10 px-4 py-2">
                   <button
                     v-if="hasProductVariants(item)"
                     type="button"
-                    class="p-1 rounded hover:bg-gray-200 transition-colors"
+                    class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                     @click="toggleProduct(item.id)"
                   >
                     <Icon
                       name="lucide:chevron-right"
-                      class="h-4 w-4 text-gray-500 transition-transform duration-200"
+                      class="h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform duration-200"
                       :class="{ 'rotate-90': isExpanded(item.id) }"
                     />
                   </button>
@@ -702,31 +702,31 @@ function getSupplierName(supplierId: string | null | undefined) {
                 <td class="h-10 px-4 py-2">
                   <NuxtLink
                     :to="`/products/${item.id}`"
-                    class="flex items-center gap-3 text-left w-full group-hover:text-primary-600 transition-colors"
+                    class="flex items-center gap-3 text-left w-full group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
                   >
                     <div
-                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-gray-200 bg-gray-50"
+                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800"
                     >
                       <Icon
                         name="lucide:box"
-                        class="h-4.5 w-4.5 text-gray-400"
+                        class="h-4.5 w-4.5 text-gray-400 dark:text-gray-500"
                       />
                     </div>
                     <div class="min-w-0">
                       <div class="flex items-center gap-2">
-                        <p class="truncate text-sm font-medium text-gray-900">
+                        <p class="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
                           {{ item.name }}
                         </p>
                         <span
                           v-if="hasProductVariants(item)"
-                          class="inline-flex items-center rounded-full bg-primary-50 px-1.5 py-0.5 text-[10px] font-medium text-primary-700 border border-primary-100"
+                          class="inline-flex items-center rounded-full bg-primary-50 dark:bg-primary-950/30 px-1.5 py-0.5 text-[10px] font-medium text-primary-700 dark:text-primary-400 border border-primary-100 dark:border-primary-900/50"
                         >
                           {{ item.variants?.length }} variants
                         </span>
                       </div>
                       <p
                         v-if="item.barcode"
-                        class="truncate text-xs text-gray-500 font-mono tracking-tight"
+                        class="truncate text-xs text-gray-500 dark:text-gray-400 font-mono tracking-tight"
                       >
                         {{ item.barcode }}
                       </p>
@@ -737,7 +737,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                 <!-- SKU -->
                 <td class="h-10 px-4 py-2">
                   <span
-                    class="font-mono text-xs text-gray-500 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100"
+                    class="font-mono text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 px-1.5 py-0.5 rounded border border-gray-100 dark:border-gray-700"
                     >{{ item.sku || '—' }}</span
                   >
                 </td>
@@ -746,7 +746,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                 <td class="h-10 px-4 py-2">
                   <div
                     v-if="item.category"
-                    class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2 py-0.5 text-xs font-medium text-gray-700"
+                    class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-2 py-0.5 text-xs font-medium text-gray-700 dark:text-gray-300"
                   >
                     <span
                       class="h-1.5 w-1.5 rounded-full"
@@ -756,15 +756,15 @@ function getSupplierName(supplierId: string | null | undefined) {
                     />
                     {{ item.category.name }}
                   </div>
-                  <span v-else class="text-gray-400 text-xs">—</span>
+                  <span v-else class="text-gray-400 dark:text-gray-600 text-xs">—</span>
                 </td>
 
                 <!-- Stock -->
                 <td class="h-10 px-4 py-2 text-right">
                   <div class="flex flex-col items-end">
-                    <span class="font-mono text-sm font-medium text-gray-900">
+                    <span class="font-mono text-sm font-medium text-gray-900 dark:text-gray-100">
                       {{ getTotalStock(item) }}
-                      <span class="text-gray-400 text-xs">{{ item.unit }}</span>
+                      <span class="text-gray-400 dark:text-gray-500 text-xs">{{ item.unit }}</span>
                     </span>
                     <span
                       :class="[
@@ -779,14 +779,14 @@ function getSupplierName(supplierId: string | null | undefined) {
 
                 <!-- Cost Price -->
                 <td class="h-10 px-4 py-2 text-right">
-                  <span class="font-mono text-xs text-gray-500"
+                  <span class="font-mono text-xs text-gray-500 dark:text-gray-400"
                     >{{ item.costPrice?.toFixed(2) }} {{ currencySymbol }}</span
                   >
                 </td>
 
                 <!-- Selling Price -->
                 <td class="h-10 px-4 py-2 text-right">
-                  <span class="font-mono text-sm font-semibold text-gray-900"
+                  <span class="font-mono text-sm font-semibold text-gray-900 dark:text-gray-100"
                     >{{ item.sellingPrice?.toFixed(2) }}
                     {{ currencySymbol }}</span
                   >
@@ -796,7 +796,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                 <td class="h-10 px-4 py-2">
                   <div class="flex justify-end gap-1">
                     <button
-                      class="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                      class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                       @click="openEditModal(item)"
                     >
                       <Icon name="lucide:pencil" class="h-4 w-4" />
@@ -814,13 +814,13 @@ function getSupplierName(supplierId: string | null | undefined) {
               <!-- Expanded Variants Section -->
               <tr v-if="hasProductVariants(item) && isExpanded(item.id)">
                 <td colspan="8" class="p-0">
-                  <div class="bg-gray-50/80 border-t border-gray-100">
+                  <div class="bg-gray-50/80 dark:bg-gray-800/30 border-t border-gray-100 dark:border-gray-800">
                     <table class="w-full">
-                      <tbody class="divide-y divide-gray-100">
+                      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                         <tr
                           v-for="variant in item.variants"
                           :key="variant.id"
-                          class="hover:bg-white/80 transition-colors cursor-pointer"
+                          class="hover:bg-white/80 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
                           @click="openVariantModal(variant, item)"
                         >
                           <!-- Empty cell for alignment -->
@@ -830,20 +830,20 @@ function getSupplierName(supplierId: string | null | undefined) {
                           <td class="h-9 px-4 py-2">
                             <div class="flex items-center gap-3 pl-6">
                               <div
-                                class="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-gray-200 bg-white"
+                                class="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
                               >
                                 <Icon
                                   name="lucide:git-branch"
-                                  class="h-3.5 w-3.5 text-gray-400"
+                                  class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500"
                                 />
                               </div>
                               <div class="min-w-0">
-                                <span class="text-sm text-gray-700">{{
+                                <span class="text-sm text-gray-700 dark:text-gray-300">{{
                                   variant.name
                                 }}</span>
                                 <div
                                   v-if="getSupplierName((variant as any).supplierId)"
-                                  class="text-[10px] text-gray-400 truncate"
+                                  class="text-[10px] text-gray-400 dark:text-gray-500 truncate"
                                 >
                                   <Icon
                                     name="lucide:truck"
@@ -860,7 +860,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                           <!-- Variant SKU -->
                           <td class="h-9 px-4 py-2">
                             <span
-                              class="font-mono text-xs text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-100"
+                              class="font-mono text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded border border-gray-100 dark:border-gray-700"
                               >{{ variant.sku || '—' }}</span
                             >
                           </td>
@@ -869,7 +869,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                           <td class="h-9 px-4 py-2">
                             <span
                               v-if="(variant as any).barcode"
-                              class="font-mono text-xs text-gray-400"
+                              class="font-mono text-xs text-gray-400 dark:text-gray-500"
                             >
                               {{ (variant as any).barcode }}
                             </span>
@@ -878,9 +878,9 @@ function getSupplierName(supplierId: string | null | undefined) {
                           <!-- Variant Stock -->
                           <td class="h-9 px-4 py-2 text-right">
                             <div class="flex flex-col items-end">
-                              <span class="font-mono text-sm text-gray-700">
+                              <span class="font-mono text-sm text-gray-700 dark:text-gray-300">
                                 {{ variant.stockQuantity || 0 }}
-                                <span class="text-gray-400 text-xs">{{
+                                <span class="text-gray-400 dark:text-gray-500 text-xs">{{
                                   item.unit
                                 }}</span>
                               </span>
@@ -897,7 +897,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
                           <!-- Variant Cost -->
                           <td class="h-9 px-4 py-2 text-right">
-                            <span class="font-mono text-xs text-gray-500"
+                            <span class="font-mono text-xs text-gray-500 dark:text-gray-400"
                               >{{ variant.costPrice?.toFixed(2) }}
                               {{ currencySymbol }}</span
                             >
@@ -905,7 +905,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
                           <!-- Variant Price -->
                           <td class="h-9 px-4 py-2 text-right">
-                            <span class="font-mono text-sm text-gray-700"
+                            <span class="font-mono text-sm text-gray-700 dark:text-gray-300"
                               >{{ variant.price?.toFixed(2) }}
                               {{ currencySymbol }}</span
                             >
@@ -915,7 +915,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                           <td class="h-9 px-4 py-2 w-20">
                             <div class="flex justify-end">
                               <button
-                                class="p-1 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors"
+                                class="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                                 @click.stop="openVariantModal(variant, item)"
                               >
                                 <Icon
@@ -937,7 +937,7 @@ function getSupplierName(supplierId: string | null | undefined) {
       </div>
 
       <!-- Pagination Footer -->
-      <div v-if="pagination.totalPages > 1" class="border-t border-gray-100 bg-gray-50/50 px-4 py-3">
+      <div v-if="pagination.totalPages > 1" class="border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 px-4 py-3">
         <UiPagination
           :current-page="pagination.page"
           :total-pages="pagination.totalPages"
@@ -959,7 +959,7 @@ function getSupplierName(supplierId: string | null | undefined) {
         <!-- Identification -->
         <div>
           <h3
-            class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
+            class="text-xs font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3 border-b border-gray-100 dark:border-gray-800 pb-2"
           >
             Identification
           </h3>
@@ -995,7 +995,7 @@ function getSupplierName(supplierId: string | null | undefined) {
         <!-- Financials -->
         <div>
           <h3
-            class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
+            class="text-xs font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3 border-b border-gray-100 dark:border-gray-800 pb-2"
           >
             Financials
           </h3>
@@ -1029,12 +1029,12 @@ function getSupplierName(supplierId: string | null | undefined) {
             </div>
 
             <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-700 mb-1.5"
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
                 >Tax Rate</label
               >
               <select
                 v-model="variantForm.taxId"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
+                class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
               >
                 <option value="">No Tax (0%)</option>
                 <option v-for="tax in taxes" :key="tax.id" :value="tax.id">
@@ -1044,12 +1044,12 @@ function getSupplierName(supplierId: string | null | undefined) {
             </div>
 
             <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-700 mb-1.5"
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
                 >Supplier</label
               >
               <select
                 v-model="variantForm.supplierId"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
+                class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
               >
                 <option value="">Select supplier...</option>
                 <option v-for="sup in suppliers" :key="sup.id" :value="sup.id">
@@ -1063,12 +1063,12 @@ function getSupplierName(supplierId: string | null | undefined) {
         <!-- Inventory Control -->
         <div>
           <h3
-            class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
+            class="text-xs font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3 border-b border-gray-100 dark:border-gray-800 pb-2"
           >
             Inventory Control
           </h3>
           <div
-            class="grid grid-cols-12 gap-4 bg-gray-50/50 p-4 rounded-lg border border-gray-200/50"
+            class="grid grid-cols-12 gap-4 bg-gray-50/50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-200/50 dark:border-gray-700/50"
           >
             <div class="col-span-6">
               <UiInput
@@ -1123,12 +1123,12 @@ function getSupplierName(supplierId: string | null | undefined) {
     >
       <form id="product-form" class="space-y-6" @submit.prevent="saveProduct">
         <!-- Identification Section -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-blue-600 dark:text-blue-400">
               <Icon name="lucide:fingerprint" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Identification
             </h3>
           </div>
@@ -1162,13 +1162,13 @@ function getSupplierName(supplierId: string | null | undefined) {
             </div>
 
             <div class="col-span-12">
-              <label class="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wide"
+              <label class="block text-xs font-semibold text-gray-700 dark:text-gray-400 mb-1.5 uppercase tracking-wide"
                 >Category</label
               >
               <div class="relative">
                 <select
                   v-model="form.categoryId"
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                 >
                   <option value="">Uncategorized</option>
                   <option
@@ -1180,7 +1180,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                   </option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
@@ -1188,27 +1188,27 @@ function getSupplierName(supplierId: string | null | undefined) {
         </div>
 
         <!-- Variants Section -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center justify-between pb-2 border-b border-gray-200/60">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-gray-200/60 dark:border-gray-700">
             <div class="flex items-center gap-2">
-               <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+               <div class="p-1.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-purple-600 dark:text-purple-400">
                 <Icon name="lucide:layers" class="h-4 w-4" />
               </div>
-              <h3 class="text-sm font-semibold text-gray-900">
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 Product Variants
               </h3>
             </div>
             
             <div class="flex items-center gap-3">
-              <span class="text-sm font-medium text-gray-600">Enable Variants</span>
+              <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Enable Variants</span>
               <button
                 type="button"
-                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
-                :class="hasVariants ? 'bg-gray-900' : 'bg-gray-200'"
+                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
+                :class="hasVariants ? 'bg-gray-900 dark:bg-gray-400' : 'bg-gray-200 dark:bg-gray-700'"
                 @click="hasVariants = !hasVariants"
               >
                 <span
-                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-100 shadow ring-0 transition duration-200 ease-in-out"
                   :class="hasVariants ? 'translate-x-5' : 'translate-x-0'"
                 />
               </button>
@@ -1217,15 +1217,15 @@ function getSupplierName(supplierId: string | null | undefined) {
 
           <div v-if="hasVariants" class="space-y-6 animate-in slide-in-from-top-2 duration-300">
             <!-- Options Builder -->
-            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+            <div class="bg-white dark:bg-gray-950 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
               <div class="flex justify-between items-center">
-                <h4 class="text-sm font-medium text-gray-900 flex items-center gap-2">
-                  <Icon name="lucide:list-tree" class="h-4 w-4 text-gray-500" />
+                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                  <Icon name="lucide:list-tree" class="h-4 w-4 text-gray-500 dark:text-gray-400" />
                   Define Options
                 </h4>
                 <button
                   type="button"
-                  class="text-xs font-semibold text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-2 py-1 rounded-md transition-colors"
+                  class="text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-950/30 px-2 py-1 rounded-md transition-colors"
                   @click="addOption"
                 >
                   + Add Option
@@ -1236,30 +1236,30 @@ function getSupplierName(supplierId: string | null | undefined) {
                 <div
                   v-for="(option, idx) in form.options"
                   :key="idx"
-                  class="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100"
+                  class="flex gap-3 items-start p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700"
                 >
                   <div class="w-1/3">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Option Name</label>
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Option Name</label>
                     <input
                       v-model="option.name"
                       type="text"
                       placeholder="e.g. Color"
-                      class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5"
+                      class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                     />
                   </div>
                   <div class="flex-1">
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Values</label>
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Values</label>
                     <div class="flex gap-2">
                         <input
                         v-model="option.valuesInput"
                         type="text"
                         placeholder="Comma separated (e.g. Red, Blue, Green)"
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5"
+                        class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                         @blur="updateOptionValues(idx)"
                         />
                         <button
                             type="button"
-                            class="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-md transition-colors"
+                            class="text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-md transition-colors"
                             @click="removeOption(idx)"
                             title="Remove Option"
                         >
@@ -1271,9 +1271,9 @@ function getSupplierName(supplierId: string | null | undefined) {
                 
                 <div
                   v-if="form.options.length === 0"
-                  class="text-center py-6 text-sm text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-200"
+                  class="text-center py-6 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-dashed border-gray-200 dark:border-gray-700"
                 >
-                  <Icon name="lucide:tags" class="h-8 w-8 mx-auto text-gray-300 mb-2" />
+                  <Icon name="lucide:tags" class="h-8 w-8 mx-auto text-gray-300 dark:text-gray-600 mb-2" />
                   <p>No options added yet.</p>
                   <p class="text-xs mt-1">Click "Add Option" to start defining variants like Color or Size.</p>
                 </div>
@@ -1282,7 +1282,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <div class="pt-2 flex justify-end">
                 <button
                   type="button"
-                  class="text-sm font-medium bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 shadow-sm transition-colors flex items-center gap-2"
+                  class="text-sm font-medium bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 shadow-sm transition-colors flex items-center gap-2"
                   @click="generateVariants"
                 >
                   <Icon name="lucide:wand-2" class="h-4 w-4" />
@@ -1294,32 +1294,32 @@ function getSupplierName(supplierId: string | null | undefined) {
             <!-- Variants List -->
             <div
               v-if="form.variants.length > 0"
-              class="border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+              class="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm"
             >
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                <thead class="bg-gray-50 dark:bg-gray-800">
                   <tr>
                     <th
                       scope="col"
-                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                     >
                       Variant
                     </th>
                     <th
                       scope="col"
-                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-32"
+                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32"
                     >
                       Price
                     </th>
                     <th
                       scope="col"
-                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-32"
+                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32"
                     >
                       Stock
                     </th>
                     <th
                       scope="col"
-                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-40"
+                      class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-40"
                     >
                       SKU
                     </th>
@@ -1328,48 +1328,48 @@ function getSupplierName(supplierId: string | null | undefined) {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="(variant, idx) in form.variants" :key="idx" class="group hover:bg-gray-50/50 transition-colors">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+                  <tr v-for="(variant, idx) in form.variants" :key="idx" class="group hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
                       <input
                         v-model="variant.name"
                         type="text"
                         class="block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm bg-transparent font-medium"
                       />
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                       <div class="relative rounded-md shadow-sm">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
-                            <span class="text-gray-400 sm:text-xs">$</span>
+                            <span class="text-gray-400 dark:text-gray-500 sm:text-xs">$</span>
                         </div>
                         <input
                             v-model.number="variant.price"
                             type="number"
-                            class="block w-full rounded-md border-gray-300 pl-7 focus:border-gray-500 focus:ring-gray-500 sm:text-sm h-10 py-2"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-700 pl-7 focus:border-gray-500 dark:focus:border-gray-400 focus:ring-gray-500 dark:focus:ring-gray-400 sm:text-sm h-10 py-2 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                             placeholder="0.00"
                         />
                       </div>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                       <input
                         v-model.number="variant.stockQuantity"
                         type="number"
-                        class="block w-full rounded-md border-gray-300 focus:border-gray-500 focus:ring-gray-500 sm:text-sm h-10 px-3 py-2"
+                        class="block w-full rounded-md border-gray-300 dark:border-gray-700 focus:border-gray-500 dark:focus:border-gray-400 focus:ring-gray-500 dark:focus:ring-gray-400 sm:text-sm h-10 px-3 py-2 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                         placeholder="0"
                       />
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                         <input
                             v-model="variant.sku"
                             type="text"
-                            class="block w-full rounded-md border-gray-300 focus:border-gray-500 focus:ring-gray-500 sm:text-sm h-10 px-3 py-2 font-mono text-xs"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-700 focus:border-gray-500 dark:focus:border-gray-400 focus:ring-gray-500 dark:focus:ring-gray-400 sm:text-sm h-10 px-3 py-2 font-mono text-xs bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                             placeholder="SKU..."
                         />
                     </td>
                     <td class="px-4 py-3 text-right text-sm font-medium">
                       <button
                         type="button"
-                        class="text-gray-300 hover:text-red-600 transition-colors p-1"
+                        class="text-gray-300 dark:text-gray-600 hover:text-red-600 dark:hover:text-red-400 transition-colors p-1"
                         @click="removeVariant(idx)"
                       >
                         <Icon name="lucide:trash-2" class="h-4 w-4" />
@@ -1383,12 +1383,12 @@ function getSupplierName(supplierId: string | null | undefined) {
         </div>
 
         <!-- Financials Section -->
-        <div v-if="!hasVariants" class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-             <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-600">
+        <div v-if="!hasVariants" class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+             <div class="p-1.5 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg text-emerald-600 dark:text-emerald-400">
               <Icon name="lucide:coins" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Financials
             </h3>
           </div>
@@ -1422,13 +1422,13 @@ function getSupplierName(supplierId: string | null | undefined) {
             </div>
 
             <div class="col-span-12 sm:col-span-6">
-              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide"
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-wide"
                 >Tax Rate</label
               >
               <div class="relative">
                 <select
                   v-model="form.taxId"
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 line-clamp-1"
                 >
                   <option value="">No Tax (0%)</option>
                   <option v-for="tax in taxes" :key="tax.id" :value="tax.id">
@@ -1436,19 +1436,19 @@ function getSupplierName(supplierId: string | null | undefined) {
                   </option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
 
             <div class="col-span-12 sm:col-span-6">
-              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide"
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-wide"
                 >Supplier</label
               >
               <div class="relative">
                 <select
                   v-model="form.supplierId"
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 selection:bg-primary-500"
                 >
                   <option value="">Select supplier...</option>
                   <option v-for="sup in suppliers" :key="sup.id" :value="sup.id">
@@ -1456,7 +1456,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                   </option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
@@ -1464,12 +1464,12 @@ function getSupplierName(supplierId: string | null | undefined) {
         </div>
 
         <!-- Inventory Control Section -->
-        <div v-if="!hasVariants" class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-             <div class="p-1.5 bg-orange-50 rounded-lg text-orange-600">
+        <div v-if="!hasVariants" class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+             <div class="p-1.5 bg-orange-50 dark:bg-orange-950/30 rounded-lg text-orange-600 dark:text-orange-400">
               <Icon name="lucide:package-check" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Inventory Control
             </h3>
           </div>
@@ -1493,13 +1493,13 @@ function getSupplierName(supplierId: string | null | undefined) {
             </div>
 
             <div class="col-span-12 sm:col-span-4">
-              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide"
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-wide"
                 >Unit Type</label
               >
               <div class="relative">
                 <select
                   v-model="form.unit"
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                 >
                   <option value="unit">Pieces (pcs)</option>
                   <option value="kg">Weight (kg)</option>
@@ -1507,7 +1507,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                   <option value="l">Volume (L)</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>

@@ -35,7 +35,10 @@ const chartData = computed<ChartData<'doughnut'>>(() => ({
   ],
 }));
 
-const chartOptions: ChartOptions<'doughnut'> = {
+const { settings } = useSettings();
+const isDark = computed(() => settings.value?.theme === 'dark');
+
+const chartOptions = computed<ChartOptions<'doughnut'>>(() => ({
   responsive: true,
   maintainAspectRatio: false,
   cutout: '65%',
@@ -49,6 +52,7 @@ const chartOptions: ChartOptions<'doughnut'> = {
         padding: 12,
         usePointStyle: true,
         pointStyle: 'circle',
+        color: isDark.value ? '#9CA3AF' : '#374151',
         font: {
           size: 12,
         },
@@ -59,29 +63,34 @@ const chartOptions: ChartOptions<'doughnut'> = {
           const bgColors = dataset.backgroundColor as string[];
           return (chart.data.labels ?? []).map((label, i) => ({
             text: `${label} (${dataset.data[i] ?? 0})`,
-            fillStyle: bgColors[i] ?? '#6B7280',
-            strokeStyle: bgColors[i] ?? '#6B7280',
+            fillStyle: bgColors[i] ?? (isDark.value ? '#4B5563' : '#6B7280'),
+            strokeStyle: bgColors[i] ?? (isDark.value ? '#4B5563' : '#6B7280'),
             hidden: false,
             index: i,
+            fontColor: isDark.value ? '#9CA3AF' : '#374151',
             pointStyle: 'circle' as const,
           }));
         },
       },
     },
     tooltip: {
+      backgroundColor: isDark.value ? '#1F2937' : '#FFFFFF',
+      titleColor: isDark.value ? '#FFFFFF' : '#111827',
+      bodyColor: isDark.value ? '#9CA3AF' : '#4B5563',
+      borderColor: isDark.value ? '#374151' : '#E5E7EB',
+      borderWidth: 1,
+      padding: 12,
       callbacks: {
         label: (context) => {
-          const total = context.dataset.data.reduce(
-            (a, b) => (a as number) + (b as number),
-            0
-          ) as number;
+          const data = context.dataset.data as number[];
+          const total = data.reduce((a, b) => a + b, 0);
           const percentage = ((context.parsed / total) * 100).toFixed(1);
-          return `${context.label}: ${context.parsed} products (${percentage}%)`;
+          return ` ${context.label}: ${context.parsed} products (${percentage}%)`;
         },
       },
     },
   },
-};
+}));
 
 const totalProducts = computed(() =>
   props.data.reduce((sum, d) => sum + d.count, 0)
@@ -96,8 +105,8 @@ const totalProducts = computed(() =>
       style="left: -25%"
     >
       <div class="text-center">
-        <p class="text-2xl font-bold text-gray-900">{{ totalProducts }}</p>
-        <p class="text-xs text-gray-500">Products</p>
+        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ totalProducts }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Products</p>
       </div>
     </div>
   </div>

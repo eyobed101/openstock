@@ -90,21 +90,21 @@ onUnmounted(() => {
         >
           <div
             v-if="open"
-            class="relative z-10 w-full overflow-hidden rounded-lg bg-white shadow-2xl ring-1 ring-black/5 flex flex-col max-h-[90vh]"
+            class="relative z-10 w-full overflow-hidden rounded-lg bg-white dark:bg-gray-900 shadow-2xl ring-1 ring-black/5 dark:ring-white/5 flex flex-col max-h-[90vh]"
             :class="sizeClasses"
           >
-            <div class="flex items-start justify-between border-b border-gray-200 px-5 py-4 bg-white">
+            <div class="flex items-start justify-between border-b border-gray-200 dark:border-gray-800 px-5 py-4 bg-white dark:bg-gray-900">
               <div class="pr-6">
-                <h2 class="text-base font-semibold leading-6 text-gray-900 tracking-tight">
+                <h2 class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100 tracking-tight">
                   {{ title }}
                 </h2>
-                <p v-if="description" class="mt-1 text-xs text-gray-500">
+                <p v-if="description" class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                   {{ description }}
                 </p>
               </div>
               
               <button
-                class="rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-1"
+                class="rounded-md p-1.5 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-primary-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900"
                 @click="close"
                 aria-label="Close"
               >
@@ -118,7 +118,7 @@ onUnmounted(() => {
 
             <div 
               v-if="$slots.footer" 
-              class="bg-gray-50 px-5 py-4 flex items-center justify-end gap-3 border-t border-gray-200"
+              class="bg-gray-50 dark:bg-gray-950 px-5 py-4 flex items-center justify-end gap-3 border-t border-gray-200 dark:border-gray-800"
             >
               <slot name="footer" />
             </div>

@@ -67,7 +67,7 @@ watch(
 
     <!-- Sidebar component -->
     <aside
-      class="fixed inset-y-0 left-0 z-50 flex h-full flex-col border-r border-gray-200 bg-white transition-all duration-300 ease-in-out lg:static lg:flex lg:h-full"
+      class="fixed inset-y-0 left-0 z-50 flex h-full flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out lg:static lg:flex lg:h-full"
       :class="[
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
         isCollapsed ? 'lg:w-20' : 'lg:w-64 w-72',
@@ -75,7 +75,7 @@ watch(
     >
       <!-- Header -->
       <div
-        class="flex h-16 items-center border-b border-gray-100 transition-all duration-300"
+        class="flex h-16 items-center border-b border-gray-100 dark:border-gray-800 transition-all duration-300"
         :class="[isCollapsed ? 'justify-center px-0' : 'gap-3 px-6']"
       >
         <div
@@ -84,8 +84,8 @@ watch(
           <Icon name="lucide:boxes" class="h-5 w-5" />
         </div>
         <div v-if="!isCollapsed" class="flex flex-col animate-in fade-in duration-500">
-          <span class="text-sm font-bold tracking-tight text-gray-900">OpenStock</span>
-          <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Inventory</span>
+          <span class="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">OpenStock</span>
+          <span class="text-[10px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Inventory</span>
         </div>
       </div>
 
@@ -100,8 +100,8 @@ watch(
             class="group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200"
             :class="[
               isActive(item.href)
-                ? 'bg-primary-50 text-primary-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100',
               isCollapsed ? 'justify-center px-0' : 'gap-3',
             ]"
             :title="isCollapsed ? item.name : ''"
@@ -111,8 +111,8 @@ watch(
               class="h-5 w-5 shrink-0 transition-colors"
               :class="
                 isActive(item.href)
-                  ? 'text-primary-600'
-                  : 'text-gray-400 group-hover:text-gray-600'
+                  ? 'text-primary-600 dark:text-primary-400'
+                  : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
               "
             />
             <span v-if="!isCollapsed" class="animate-in fade-in duration-300">{{ item.name }}</span>
@@ -124,13 +124,13 @@ watch(
         </div>
 
         <!-- Separator -->
-        <div class="my-4 h-px bg-gray-100" />
+        <div class="my-4 h-px bg-gray-100 dark:bg-gray-800" />
 
         <!-- Secondary navigation -->
         <div class="flex flex-col gap-1">
           <p
             v-if="!isCollapsed"
-            class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 animate-in fade-in duration-300"
+            class="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 animate-in fade-in duration-300"
           >
             System
           </p>
@@ -141,8 +141,8 @@ watch(
             class="group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200"
             :class="[
               isActive(item.href)
-                ? 'bg-primary-50 text-primary-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100',
               isCollapsed ? 'justify-center px-0' : 'gap-3',
             ]"
             :title="isCollapsed ? item.name : ''"
@@ -166,7 +166,7 @@ watch(
         <!-- Collapse Toggle (Desktop only) -->
         <button
           @click="toggleCollapse"
-          class="hidden lg:flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-all duration-200"
+          class="hidden lg:flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-200"
           :class="[isCollapsed ? 'justify-center px-0' : '']"
           title="Toggle Sidebar"
         >
@@ -179,25 +179,25 @@ watch(
 
         <!-- User Card -->
         <div
-          class="mt-4 overflow-hidden rounded-xl border border-gray-100 bg-gray-50/50 p-2 transition-all duration-300"
+          class="mt-4 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 p-2 transition-all duration-300"
           :class="[isCollapsed ? 'p-1' : 'p-3']"
         >
           <div class="flex items-center" :class="[isCollapsed ? 'justify-center' : 'gap-3']">
             <div
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white shadow-sm border border-gray-100"
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700"
             >
-              <Icon name="lucide:user" class="h-4 w-4 text-gray-600" />
+              <Icon name="lucide:user" class="h-4 w-4 text-gray-600 dark:text-gray-400" />
             </div>
             <div v-if="!isCollapsed" class="flex-1 min-w-0 animate-in slide-in-from-left-2 duration-300">
-              <p class="truncate text-sm font-semibold text-gray-900">
+              <p class="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
                 {{ user?.name || 'User' }}
               </p>
-              <p class="truncate text-xs text-gray-500">{{ user?.email }}</p>
+              <p class="truncate text-xs text-gray-500 dark:text-gray-400">{{ user?.email }}</p>
             </div>
             <button
               v-if="!isCollapsed"
               @click="handleLogout"
-              class="text-gray-400 hover:text-gray-600 transition-colors animate-in fade-in duration-300"
+              class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors animate-in fade-in duration-300"
               title="Sign out"
             >
               <Icon name="lucide:log-out" class="h-4 w-4" />

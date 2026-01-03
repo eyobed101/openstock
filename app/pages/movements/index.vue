@@ -95,27 +95,27 @@ const movementTypes = [
     label: 'In',
     description: 'Receive',
     icon: 'lucide:arrow-down',
-    color: 'text-green-600',
-    bgColor: 'bg-green-50',
-    borderColor: 'border-green-200',
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-50 dark:bg-green-950/30',
+    borderColor: 'border-green-200 dark:border-green-900/50',
   },
   {
     value: 'out',
     label: 'Out',
     description: 'Sales',
     icon: 'lucide:arrow-up',
-    color: 'text-red-600',
-    bgColor: 'bg-red-50',
-    borderColor: 'border-red-200',
+    color: 'text-red-600 dark:text-red-400',
+    bgColor: 'bg-red-50 dark:bg-red-950/30',
+    borderColor: 'border-red-200 dark:border-red-900/50',
   },
   {
     value: 'adjustment',
     label: 'Adjust',
     description: 'Correction',
     icon: 'lucide:settings-2',
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    borderColor: 'border-amber-200',
+    color: 'text-amber-600 dark:text-amber-400',
+    bgColor: 'bg-amber-50 dark:bg-amber-950/30',
+    borderColor: 'border-amber-200 dark:border-amber-900/50',
   },
 ];
 
@@ -198,22 +198,19 @@ function formatDate(date: Date | string) {
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-lg font-semibold text-gray-900">Stock Movements</h1>
-        <p class="text-xs text-gray-500">Track inventory changes</p>
+        <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Stock Movements</h1>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Track inventory changes and audit trails.</p>
       </div>
-      <button 
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" 
-        @click="openCreateModal"
-      >
+      <UiButton @click="openCreateModal">
         <Icon name="lucide:plus" class="h-4 w-4" />
         New Movement
-      </button>
+      </UiButton>
     </div>
 
     <!-- Quick action buttons -->
     <div class="flex gap-2">
       <button
-        class="flex items-center gap-1.5 rounded border border-green-200 bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700 transition-colors hover:bg-green-100"
+        class="flex items-center gap-1.5 rounded border border-green-200 dark:border-green-900/50 bg-green-50 dark:bg-green-950/30 px-3 py-1.5 text-xs font-medium text-green-700 dark:text-green-400 transition-colors hover:bg-green-100 dark:hover:bg-green-900/40"
         @click="
           openCreateModal();
           form.type = 'in';
@@ -223,7 +220,7 @@ function formatDate(date: Date | string) {
         Stock In
       </button>
       <button
-        class="flex items-center gap-1.5 rounded border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-100"
+        class="flex items-center gap-1.5 rounded border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 px-3 py-1.5 text-xs font-medium text-red-700 dark:text-red-400 transition-colors hover:bg-red-100 dark:hover:bg-red-900/40"
         @click="
           openCreateModal();
           form.type = 'out';
@@ -233,7 +230,7 @@ function formatDate(date: Date | string) {
         Stock Out
       </button>
       <button
-        class="flex items-center gap-1.5 rounded border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 transition-colors hover:bg-amber-100"
+        class="flex items-center gap-1.5 rounded border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/30 px-3 py-1.5 text-xs font-medium text-amber-700 dark:text-amber-400 transition-colors hover:bg-amber-100 dark:hover:bg-amber-900/40"
         @click="
           openCreateModal();
           form.type = 'adjustment';
@@ -245,17 +242,17 @@ function formatDate(date: Date | string) {
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+    <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
         <div class="flex items-center gap-2">
-          <div class="p-1.5 bg-gray-50 rounded-lg text-gray-500">
+          <div class="p-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg text-gray-500 dark:text-gray-400">
             <Icon name="lucide:filter" class="h-4 w-4" />
           </div>
-          <h3 class="text-sm font-semibold text-gray-900">Search & Filters</h3>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Search & Filters</h3>
         </div>
         <button
           v-if="hasActiveFilters"
-          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 shadow-sm"
+          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-gray-700 shadow-sm"
           @click="clearFilters"
         >
           <Icon name="lucide:rotate-ccw" class="h-3.5 w-3.5" />
@@ -266,23 +263,23 @@ function formatDate(date: Date | string) {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Date Range -->
         <div class="lg:col-span-2">
-          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Date Range</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Date Range</label>
           <div class="grid grid-cols-2 gap-3">
             <div class="relative">
-              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
               <input
                 v-model="filters.startDate"
                 type="date"
-                class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent dark:text-gray-100"
                 @change="applyFilters"
               />
             </div>
             <div class="relative">
-              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <Icon name="lucide:calendar" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
               <input
                 v-model="filters.endDate"
                 type="date"
-                class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent dark:text-gray-100"
                 @change="applyFilters"
               />
             </div>
@@ -291,12 +288,12 @@ function formatDate(date: Date | string) {
 
         <!-- Type filter -->
         <div>
-          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Movement Type</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Movement Type</label>
           <div class="relative">
-            <Icon name="lucide:list" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Icon name="lucide:list" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <select
               v-model="filters.type"
-              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none dark:text-gray-100"
               @change="applyFilters"
             >
               <option value="">All Types</option>
@@ -310,12 +307,12 @@ function formatDate(date: Date | string) {
 
         <!-- Product filter -->
         <div>
-          <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Select Product</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Select Product</label>
           <div class="relative">
-            <Icon name="lucide:package" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Icon name="lucide:package" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <select
               v-model="filters.productId"
-              class="flex h-11 w-full rounded-xl border border-gray-200 bg-white pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none dark:text-gray-100"
               @change="applyFilters"
             >
               <option value="">All Products</option>
@@ -333,13 +330,13 @@ function formatDate(date: Date | string) {
       </div>
 
       <!-- Results info -->
-      <div v-if="movements" class="flex items-center justify-between pt-3 border-t border-gray-100">
-        <div class="flex items-center gap-2 text-xs text-gray-500">
+      <div v-if="movements" class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
           <Icon name="lucide:info" class="h-3.5 w-3.5" />
           <span>Showing {{ pagination.page * pagination.limit - pagination.limit + 1 }}-{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }} records</span>
         </div>
         <button
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-3 py-1.5 rounded-lg transition-colors"
+          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-950/30 px-3 py-1.5 rounded-lg transition-colors"
           @click="refresh"
         >
           <Icon name="lucide:refresh-cw" class="h-3.5 w-3.5" :class="{ 'animate-spin': pending }" />
@@ -359,7 +356,7 @@ function formatDate(date: Date | string) {
         empty-icon="lucide:arrow-left-right"
       >
         <template #date="{ item }">
-          <span class="text-xs text-gray-500 font-mono">{{
+          <span class="text-xs text-gray-500 dark:text-gray-400 font-mono">{{
             formatDate(item.createdAt)
           }}</span>
         </template>
@@ -367,17 +364,17 @@ function formatDate(date: Date | string) {
         <template #product="{ item }">
           <div class="flex items-center gap-2">
             <div
-              class="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gray-100"
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gray-100 dark:bg-gray-800"
             >
-              <Icon name="lucide:package" class="h-3 w-3 text-gray-500" />
+              <Icon name="lucide:package" class="h-3 w-3 text-gray-500 dark:text-gray-400" />
             </div>
             <div class="min-w-0">
-              <p class="truncate text-xs font-medium text-gray-900">
+              <p class="truncate text-xs font-medium text-gray-900 dark:text-gray-100">
                 {{ item.product?.name || 'Unknown' }}
               </p>
               <p
                 v-if="item.product?.sku"
-                class="truncate text-xs text-gray-400 font-mono"
+                class="truncate text-xs text-gray-400 dark:text-gray-500 font-mono"
               >
                 {{ item.product.sku }}
               </p>
@@ -408,10 +405,10 @@ function formatDate(date: Date | string) {
             class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium font-mono tabular-nums"
             :class="
               item.type === 'in'
-                ? 'bg-green-50 text-green-700'
+                ? 'bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400'
                 : item.type === 'out'
-                ? 'bg-red-50 text-red-700'
-                : 'bg-gray-100 text-gray-600'
+                ? 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
             "
           >
             {{ item.type === 'in' ? '+' : item.type === 'out' ? '-' : ''
@@ -420,7 +417,7 @@ function formatDate(date: Date | string) {
         </template>
 
         <template #stock="{ item }">
-          <span class="font-mono text-xs tabular-nums text-gray-600">{{
+          <span class="font-mono text-xs tabular-nums text-gray-600 dark:text-gray-400">{{
             item.stockAfter
           }}</span>
         </template>
@@ -429,14 +426,14 @@ function formatDate(date: Date | string) {
           <div class="max-w-[150px]">
             <p
               v-if="item.reference"
-              class="truncate text-xs font-medium text-gray-900"
+              class="truncate text-xs font-medium text-gray-900 dark:text-gray-100"
             >
               {{ item.reference }}
             </p>
-            <p v-if="item.reason" class="truncate text-xs text-gray-500">
+            <p v-if="item.reason" class="truncate text-xs text-gray-500 dark:text-gray-400">
               {{ item.reason }}
             </p>
-            <span v-if="!item.reference && !item.reason" class="text-gray-400"
+            <span v-if="!item.reference && !item.reason" class="text-gray-400 dark:text-gray-600"
               >—</span
             >
           </div>
@@ -466,24 +463,24 @@ function formatDate(date: Date | string) {
         @submit.prevent="createMovement"
       >
         <!-- Product Selection -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-blue-600 dark:text-blue-400">
               <Icon name="lucide:package" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Product
             </h3>
           </div>
 
           <div>
-            <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
               Select Product <span class="text-red-500">*</span>
             </label>
             <div class="relative">
               <select 
                 v-model="form.productId" 
-                class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white" 
+                class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100" 
                 required
               >
                 <option value="">Choose a product...</option>
@@ -496,43 +493,43 @@ function formatDate(date: Date | string) {
                 </option>
               </select>
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
               </div>
             </div>
             
             <!-- Stock Information Display -->
-            <div v-if="selectedProduct" class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div v-if="selectedProduct" class="mt-3 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 rounded-lg">
               <div class="flex items-center justify-between text-sm">
                 <div class="flex items-center gap-2">
-                  <Icon name="lucide:package" class="h-4 w-4 text-blue-600" />
-                  <span class="font-medium text-blue-900">Current Stock:</span>
+                  <Icon name="lucide:package" class="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span class="font-medium text-blue-900 dark:text-blue-100">Current Stock:</span>
                 </div>
-                <span class="font-mono font-bold text-blue-700">{{ selectedProduct.stockQuantity }}</span>
+                <span class="font-mono font-bold text-blue-700 dark:text-blue-300">{{ selectedProduct.stockQuantity }}</span>
               </div>
               
-              <div v-if="form.quantity > 0 && (form.type === 'in' || form.type === 'out')" class="mt-2 pt-2 border-t border-blue-200 flex items-center justify-between text-sm">
+              <div v-if="form.quantity > 0 && (form.type === 'in' || form.type === 'out')" class="mt-2 pt-2 border-t border-blue-200 dark:border-blue-800 flex items-center justify-between text-sm">
                 <div class="flex items-center gap-2">
                   <Icon 
                     :name="form.type === 'in' ? 'lucide:arrow-down' : 'lucide:arrow-up'" 
                     class="h-4 w-4"
-                    :class="form.type === 'in' ? 'text-green-600' : 'text-red-600'"
+                    :class="form.type === 'in' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
                   />
-                  <span class="font-medium text-blue-900">After {{ form.type === 'in' ? 'Stock In' : 'Stock Out' }}:</span>
+                  <span class="font-medium text-blue-900 dark:text-blue-100">After {{ form.type === 'in' ? 'Stock In' : 'Stock Out' }}:</span>
                 </div>
                 <span 
                   class="font-mono font-bold"
-                  :class="stockAfterMovement < 0 ? 'text-red-600' : stockAfterMovement < (selectedProduct.stockMin || 0) ? 'text-amber-600' : 'text-green-600'"
+                  :class="stockAfterMovement < 0 ? 'text-red-600 dark:text-red-400' : stockAfterMovement < (selectedProduct.stockMin || 0) ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'"
                 >
                   {{ stockAfterMovement }}
                 </span>
               </div>
               
-              <div v-if="form.type === 'out' && stockAfterMovement < 0" class="mt-2 flex items-start gap-2 text-xs text-red-700">
+              <div v-if="form.type === 'out' && stockAfterMovement < 0" class="mt-2 flex items-start gap-2 text-xs text-red-700 dark:text-red-400">
                 <Icon name="lucide:alert-triangle" class="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
                 <span>Warning: This will result in negative stock!</span>
               </div>
               
-              <div v-if="stockAfterMovement < (selectedProduct.stockMin || 0) && stockAfterMovement >= 0" class="mt-2 flex items-start gap-2 text-xs text-amber-700">
+              <div v-if="stockAfterMovement < (selectedProduct.stockMin || 0) && stockAfterMovement >= 0" class="mt-2 flex items-start gap-2 text-xs text-amber-700 dark:text-amber-400">
                 <Icon name="lucide:alert-circle" class="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
                 <span>Notice: Stock will be below minimum level ({{ selectedProduct.stockMin }})</span>
               </div>
@@ -541,19 +538,19 @@ function formatDate(date: Date | string) {
         </div>
 
         <!-- Movement Details -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-purple-600 dark:text-purple-400">
               <Icon name="lucide:arrow-left-right" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Movement Details
             </h3>
           </div>
 
           <div class="space-y-4">
             <div>
-              <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">
                 Type <span class="text-red-500">*</span>
               </label>
               <div class="grid grid-cols-3 gap-3">
@@ -582,25 +579,25 @@ function formatDate(date: Date | string) {
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 Quantity <span class="text-red-500">*</span>
               </label>
               <input
                 v-model.number="form.quantity"
                 type="number"
                 min="1"
-                class="flex h-11 w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 font-mono"
+                class="flex h-11 w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 dark:text-gray-100 font-mono"
                 required
                 placeholder="Enter quantity"
               />
             </div>
 
             <div v-if="form.type === 'in'">
-              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide">Supplier (Optional)</label>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Supplier (Optional)</label>
               <div class="relative">
                 <select 
                   v-model="form.supplierId" 
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                 >
                   <option value="">None</option>
                   <option
@@ -612,7 +609,7 @@ function formatDate(date: Date | string) {
                   </option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
@@ -620,31 +617,31 @@ function formatDate(date: Date | string) {
         </div>
 
         <!-- Additional Information -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-amber-50 rounded-lg text-amber-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-amber-50 dark:bg-amber-950/30 rounded-lg text-amber-600 dark:text-amber-400">
               <Icon name="lucide:file-text" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Additional Information
             </h3>
           </div>
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Reference</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Reference</label>
               <input
                 v-model="form.reference"
-                class="flex h-11 w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
+                class="flex h-11 w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 dark:text-gray-100"
                 placeholder="Order #, Invoice #, etc."
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Notes</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Notes</label>
               <textarea
                 v-model="form.reason"
-                class="flex w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none"
+                class="flex w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none dark:text-gray-100"
                 placeholder="Optional notes about this movement..."
               />
             </div>
@@ -653,31 +650,21 @@ function formatDate(date: Date | string) {
       </form>
 
       <template #footer>
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="isModalOpen = false"
-        >
+        <UiButton variant="secondary" @click="isModalOpen = false">
           Cancel
-        </button>
-        <button
+        </UiButton>
+        <UiButton
           type="submit"
           form="movement-form"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="isSubmitting"
+          :loading="isSubmitting"
         >
           <Icon
-            v-if="isSubmitting"
-            name="lucide:loader-2"
-            class="h-4 w-4 animate-spin"
-          />
-          <Icon
-            v-else
+            v-if="!isSubmitting"
             name="lucide:check"
-            class="h-4 w-4"
+            class="mr-2 h-4 w-4"
           />
           Record Movement
-        </button>
+        </UiButton>
       </template>
     </UiModal>
   </div>

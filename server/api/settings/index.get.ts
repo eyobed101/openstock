@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
     lowStockAlert: true,
     outOfStockAlert: true,
     emailDailyReport: false,
+    theme: 'light',
   }).returning();
 
   return newSettings;

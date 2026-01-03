@@ -28,21 +28,21 @@ const inputValue = computed({
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <label v-if="label" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700">
+    <label v-if="label" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700 dark:text-gray-300">
       {{ label }}
     </label>
     <div class="relative">
       <Icon
         v-if="icon"
         :name="icon"
-        class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400"
+        class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400 dark:text-gray-500"
       />
       <input
         v-model="inputValue"
         :type="type"
         :placeholder="placeholder"
         :disabled="disabled"
-        class="flex h-11 w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
+        class="flex h-11 w-full rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 dark:text-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
         :class="[
           { 'border-red-500 focus-visible:ring-red-500': error },
           { 'pl-9': icon }

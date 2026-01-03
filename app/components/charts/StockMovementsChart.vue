@@ -34,7 +34,10 @@ const chartData = computed<ChartData<'line'>>(() => ({
   ],
 }));
 
-const chartOptions: ChartOptions<'line'> = {
+const { settings } = useSettings();
+const isDark = computed(() => settings.value?.theme === 'dark');
+
+const chartOptions = computed<ChartOptions<'line'>>(() => ({
   responsive: true,
   maintainAspectRatio: false,
   interaction: {
@@ -52,12 +55,20 @@ const chartOptions: ChartOptions<'line'> = {
         usePointStyle: true,
         pointStyle: 'circle',
         padding: 16,
+        color: isDark.value ? '#9CA3AF' : '#374151',
         font: {
           size: 12,
         },
       },
     },
     tooltip: {
+      backgroundColor: isDark.value ? '#1F2937' : '#FFFFFF',
+      titleColor: isDark.value ? '#FFFFFF' : '#111827',
+      bodyColor: isDark.value ? '#9CA3AF' : '#4B5563',
+      borderColor: isDark.value ? '#374151' : '#E5E7EB',
+      borderWidth: 1,
+      padding: 12,
+      displayColors: true,
       callbacks: {
         label: (context) =>
           `${context.dataset.label}: ${context.parsed.y} units`,
@@ -70,6 +81,7 @@ const chartOptions: ChartOptions<'line'> = {
         display: false,
       },
       ticks: {
+        color: isDark.value ? '#6B7280' : '#9CA3AF',
         font: {
           size: 11,
         },
@@ -78,9 +90,10 @@ const chartOptions: ChartOptions<'line'> = {
     y: {
       beginAtZero: true,
       grid: {
-        color: 'rgba(0, 0, 0, 0.05)',
+        color: isDark.value ? 'rgba(75, 85, 99, 0.1)' : 'rgba(0, 0, 0, 0.05)',
       },
       ticks: {
+        color: isDark.value ? '#6B7280' : '#9CA3AF',
         font: {
           size: 11,
         },
@@ -88,7 +101,7 @@ const chartOptions: ChartOptions<'line'> = {
       },
     },
   },
-};
+}));
 </script>
 
 <template>

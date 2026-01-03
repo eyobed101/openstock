@@ -139,36 +139,33 @@ const topLevelCategories = computed(
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-lg font-semibold text-gray-900">Categories</h1>
-        <p class="text-xs text-gray-500">Organize products by category</p>
+        <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Categories</h1>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Organize products by category and sub-categories.</p>
       </div>
-      <button 
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" 
-        @click="openCreateModal"
-      >
+      <UiButton @click="openCreateModal">
         <Icon name="lucide:plus" class="h-4 w-4" />
         Add Category
-      </button>
+      </UiButton>
     </div>
 
     <!-- Quick Stats -->
     <div class="flex gap-3">
       <div
-        class="flex items-center gap-2 rounded border border-gray-200 bg-white px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1.5"
       >
-        <Icon name="lucide:folder" class="h-3.5 w-3.5 text-gray-400" />
-        <span class="text-xs">
+        <Icon name="lucide:folder" class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
+        <span class="text-xs text-gray-700 dark:text-gray-300">
           <span class="font-medium font-mono">{{ totalCategories }}</span>
-          <span class="text-gray-500"> total</span>
+          <span class="text-gray-500 dark:text-gray-500"> total</span>
         </span>
       </div>
       <div
-        class="flex items-center gap-2 rounded border border-gray-200 bg-white px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1.5"
       >
-        <Icon name="lucide:folder-tree" class="h-3.5 w-3.5 text-gray-400" />
-        <span class="text-xs">
+        <Icon name="lucide:folder-tree" class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
+        <span class="text-xs text-gray-700 dark:text-gray-300">
           <span class="font-medium font-mono">{{ topLevelCategories }}</span>
-          <span class="text-gray-500"> top level</span>
+          <span class="text-gray-500 dark:text-gray-500"> top level</span>
         </span>
       </div>
     </div>
@@ -196,10 +193,10 @@ const topLevelCategories = computed(
               />
             </div>
             <div>
-              <p class="text-xs font-medium text-gray-900">{{ item.name }}</p>
+              <p class="text-xs font-medium text-gray-900 dark:text-gray-100">{{ item.name }}</p>
               <p
                 v-if="item.description"
-                class="max-w-[200px] truncate text-xs text-gray-500"
+                class="max-w-[200px] truncate text-xs text-gray-500 dark:text-gray-400"
               >
                 {{ item.description }}
               </p>
@@ -208,18 +205,18 @@ const topLevelCategories = computed(
         </template>
 
         <template #parent="{ item }">
-          <span v-if="item.parent" class="badge">
+          <span v-if="item.parent" class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
             <div
-              class="mr-1 h-1.5 w-1.5 rounded-full"
+              class="mr-1 h-1 w-1 rounded-full"
               :style="{ backgroundColor: item.parent.color || '#6B7280' }"
             />
             {{ item.parent.name }}
           </span>
-          <span v-else class="text-gray-400">—</span>
+          <span v-else class="text-gray-400 dark:text-gray-600">—</span>
         </template>
 
         <template #products="{ item }">
-          <span class="font-mono text-xs tabular-nums text-gray-600">{{
+          <span class="font-mono text-xs tabular-nums text-gray-600 dark:text-gray-400">{{
             item._count?.products ?? 0
           }}</span>
         </template>
@@ -229,14 +226,14 @@ const topLevelCategories = computed(
             class="flex justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <button
-              class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
               @click="openEditModal(item)"
               aria-label="Edit"
             >
               <Icon name="lucide:pencil" class="h-3.5 w-3.5" />
             </button>
             <button
-              class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded transition-colors"
               @click="deleteCategory(item.id, item.name)"
               aria-label="Delete"
             >
@@ -256,19 +253,19 @@ const topLevelCategories = computed(
     >
       <form id="category-form" class="space-y-6" @submit.prevent="saveCategory">
         <!-- Basic Information -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-blue-600 dark:text-blue-400">
               <Icon name="lucide:tag" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Basic Information
             </h3>
           </div>
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 Name <span class="text-red-500">*</span>
               </label>
               <UiInput
@@ -279,10 +276,10 @@ const topLevelCategories = computed(
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
               <textarea
                 v-model="form.description"
-                class="flex w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[90px] resize-none"
+                class="flex w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[90px] resize-none dark:text-gray-100"
                 placeholder="Brief description of this category..."
               />
             </div>
@@ -290,23 +287,23 @@ const topLevelCategories = computed(
         </div>
 
         <!-- Organization -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-purple-600 dark:text-purple-400">
               <Icon name="lucide:folder-tree" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Organization
             </h3>
           </div>
 
           <div class="space-y-4">
             <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1.5 uppercase tracking-wide">Parent Category</label>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Parent Category</label>
               <div class="relative">
                 <select 
                   v-model="form.parentId" 
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white"
+                  class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100"
                 >
                   <option value="">None (top level)</option>
                   <option v-for="cat in parentOptions" :key="cat.id" :value="cat.id">
@@ -314,19 +311,19 @@ const topLevelCategories = computed(
                   </option>
                 </select>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+                  <Icon name="lucide:chevron-down" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Color Theme</label>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Color Theme</label>
               <div class="flex items-center gap-3">
                 <div class="relative">
                   <input
                     v-model="form.color"
                     type="color"
-                    class="h-11 w-20 rounded-lg border-2 border-gray-300 cursor-pointer hover:border-gray-400 transition-colors"
+                    class="h-11 w-20 rounded-lg border-2 border-gray-300 dark:border-gray-700 cursor-pointer hover:border-gray-400 dark:hover:border-gray-600 transition-colors bg-white dark:bg-gray-950"
                     title="Choose a color"
                   />
                 </div>
@@ -334,13 +331,13 @@ const topLevelCategories = computed(
                   <input
                     v-model="form.color"
                     type="text"
-                    class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-11 px-4 py-2.5 bg-white font-mono text-xs uppercase"
+                    class="block w-full rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-gray-900 dark:focus:border-gray-100 focus:ring-gray-900 dark:focus:ring-gray-100 sm:text-sm h-11 px-4 py-2.5 bg-white dark:bg-gray-950 font-mono text-xs uppercase text-gray-900 dark:text-gray-100"
                     placeholder="#6B7280"
                     pattern="^#[0-9A-Fa-f]{6}$"
                   />
                 </div>
                 <div 
-                  class="h-11 w-11 rounded-lg border-2 border-gray-200 shadow-sm"
+                  class="h-11 w-11 rounded-lg border-2 border-gray-200 dark:border-gray-800 shadow-sm"
                   :style="{ backgroundColor: form.color }"
                   title="Preview"
                 />
@@ -352,32 +349,21 @@ const topLevelCategories = computed(
       </form>
 
       <template #footer>
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="isSubmitting"
-          @click="isModalOpen = false"
-        >
+        <UiButton variant="secondary" @click="isModalOpen = false">
           Cancel
-        </button>
-        <button 
-          type="submit" 
+        </UiButton>
+        <UiButton
+          type="submit"
           form="category-form"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
-          :disabled="isSubmitting"
+          :loading="isSubmitting"
         >
           <Icon
-            v-if="isSubmitting"
-            name="lucide:loader-2"
-            class="h-4 w-4 animate-spin"
-          />
-          <Icon
-            v-else
+            v-if="!isSubmitting"
             name="lucide:check"
-            class="h-4 w-4"
+            class="mr-2 h-4 w-4"
           />
           {{ editingCategory ? 'Update Category' : 'Create Category' }}
-        </button>
+        </UiButton>
       </template>
     </UiModal>
   </div>

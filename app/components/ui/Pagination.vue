@@ -54,19 +54,19 @@ function goToPage(page: number) {
 </script>
 
 <template>
-  <div v-if="totalPages > 1" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-b-lg">
+  <div v-if="totalPages > 1" class="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 py-3 sm:px-6 rounded-b-lg">
     <!-- Mobile view -->
     <div class="flex flex-1 justify-between sm:hidden">
       <button
         :disabled="currentPage === 1"
-        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="relative inline-flex items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
         @click="goToPage(currentPage - 1)"
       >
         Previous
       </button>
       <button
         :disabled="currentPage === totalPages"
-        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
         @click="goToPage(currentPage + 1)"
       >
         Next
@@ -76,13 +76,13 @@ function goToPage(page: number) {
     <!-- Desktop view -->
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-400">
           Showing
           <span class="font-medium">{{ startItem }}</span>
           to
-          <span class="font-medium">{{ endItem }}</span>
+          <span class="font-medium text-gray-900 dark:text-gray-100">{{ endItem }}</span>
           of
-          <span class="font-medium">{{ totalItems }}</span>
+          <span class="font-medium text-gray-900 dark:text-gray-100">{{ totalItems }}</span>
           results
         </p>
       </div>
@@ -91,7 +91,7 @@ function goToPage(page: number) {
           <!-- Previous button -->
           <button
             :disabled="currentPage === 1"
-            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             @click="goToPage(currentPage - 1)"
           >
             <span class="sr-only">Previous</span>
@@ -101,12 +101,12 @@ function goToPage(page: number) {
           <!-- First page -->
           <button
             v-if="showFirstPage"
-            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 transition-colors"
+            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors"
             @click="goToPage(1)"
           >
             1
           </button>
-          <span v-if="showFirstPage && visiblePages[0] > 2" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">
+          <span v-if="showFirstPage && visiblePages[0] > 2" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-gray-700">
             ...
           </span>
 
@@ -118,7 +118,7 @@ function goToPage(page: number) {
               'relative inline-flex items-center px-4 py-2 text-sm font-semibold transition-colors focus:z-20 focus:outline-offset-0',
               page === currentPage
                 ? 'z-10 bg-primary-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
-                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                : 'text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
             ]"
             @click="goToPage(page)"
           >
@@ -126,12 +126,12 @@ function goToPage(page: number) {
           </button>
 
           <!-- Last page -->
-          <span v-if="showLastPage && visiblePages[visiblePages.length - 1] < totalPages - 1" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">
+          <span v-if="showLastPage && visiblePages[visiblePages.length - 1] < totalPages - 1" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-gray-700">
             ...
           </span>
           <button
             v-if="showLastPage"
-            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 transition-colors"
+            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors"
             @click="goToPage(totalPages)"
           >
             {{ totalPages }}
@@ -140,7 +140,7 @@ function goToPage(page: number) {
           <!-- Next button -->
           <button
             :disabled="currentPage === totalPages"
-            class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             @click="goToPage(currentPage + 1)"
           >
             <span class="sr-only">Next</span>

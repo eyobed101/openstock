@@ -116,37 +116,34 @@ const activeSuppliers = computed(
   <div class="space-y-4">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-lg font-semibold text-gray-900">Suppliers</h1>
-        <p class="text-xs text-gray-500">Manage product suppliers</p>
+        <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Suppliers</h1>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Manage vendor profiles and contact directory.</p>
       </div>
-      <button 
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" 
-        @click="openCreateModal"
-      >
+      <UiButton @click="openCreateModal">
         <Icon name="lucide:plus" class="h-4 w-4" />
         Add Supplier
-      </button>
+      </UiButton>
     </div>
 
     <div class="flex gap-3">
       <div
-        class="flex items-center gap-2 rounded border border-gray-200 bg-white px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1.5"
       >
-        <Icon name="lucide:truck" class="h-3.5 w-3.5 text-gray-400" />
-        <span class="text-xs">
+        <Icon name="lucide:truck" class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
+        <span class="text-xs text-gray-700 dark:text-gray-300">
           <span class="font-medium font-mono">{{ totalSuppliers }}</span>
-          <span class="text-gray-500"> total</span>
+          <span class="text-gray-500 dark:text-gray-500"> total</span>
         </span>
       </div>
       <div
-        class="flex items-center gap-2 rounded border border-green-200 bg-green-50 px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-green-200 dark:border-green-900/40 bg-green-50 dark:bg-green-950/30 px-3 py-1.5"
       >
-        <Icon name="lucide:check-circle" class="h-3.5 w-3.5 text-green-600" />
+        <Icon name="lucide:check-circle" class="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
         <span class="text-xs">
-          <span class="font-medium font-mono text-green-700">{{
+          <span class="font-medium font-mono text-green-700 dark:text-green-400">{{
             activeSuppliers
           }}</span>
-          <span class="text-green-600"> active</span>
+          <span class="text-green-600 dark:text-green-500/80"> active</span>
         </span>
       </div>
     </div>
@@ -164,18 +161,18 @@ const activeSuppliers = computed(
         <template #name="{ item }">
           <div class="flex items-center gap-2.5">
             <div
-              class="flex h-7 w-7 items-center justify-center rounded bg-gray-100"
+              class="flex h-7 w-7 items-center justify-center rounded bg-gray-100 dark:bg-gray-800"
             >
               <Icon
                 name="lucide:building-2"
-                class="h-3.5 w-3.5 text-gray-500"
+                class="h-3.5 w-3.5 text-gray-500 dark:text-gray-400"
               />
             </div>
             <div>
-              <p class="text-xs font-medium text-gray-900">{{ item.name }}</p>
+              <p class="text-xs font-medium text-gray-900 dark:text-gray-100">{{ item.name }}</p>
               <p
                 v-if="item.notes"
-                class="max-w-[180px] truncate text-xs text-gray-500"
+                class="max-w-[180px] truncate text-xs text-gray-500 dark:text-gray-400"
               >
                 {{ item.notes }}
               </p>
@@ -187,19 +184,19 @@ const activeSuppliers = computed(
           <div class="space-y-0.5">
             <p
               v-if="item.email"
-              class="flex items-center gap-1.5 text-xs text-gray-500"
+              class="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400"
             >
               <Icon name="lucide:mail" class="h-3 w-3" />
               {{ item.email }}
             </p>
             <p
               v-if="item.phone"
-              class="flex items-center gap-1.5 text-xs text-gray-500"
+              class="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400"
             >
               <Icon name="lucide:phone" class="h-3 w-3" />
               {{ item.phone }}
             </p>
-            <span v-if="!item.email && !item.phone" class="text-gray-400"
+            <span v-if="!item.email && !item.phone" class="text-gray-400 dark:text-gray-600"
               >—</span
             >
           </div>
@@ -210,21 +207,21 @@ const activeSuppliers = computed(
             v-if="item.city || item.country"
             class="flex items-center gap-1.5"
           >
-            <Icon name="lucide:map-pin" class="h-3 w-3 text-gray-400" />
+            <Icon name="lucide:map-pin" class="h-3 w-3 text-gray-400 dark:text-gray-500" />
             <div>
-              <p class="text-xs text-gray-600">
+              <p class="text-xs text-gray-600 dark:text-gray-400">
                 {{ [item.city, item.country].filter(Boolean).join(', ') }}
               </p>
-              <p v-if="item.postalCode" class="text-xs text-gray-400">
+              <p v-if="item.postalCode" class="text-xs text-gray-400 dark:text-gray-500">
                 {{ item.postalCode }}
               </p>
             </div>
           </div>
-          <span v-else class="text-gray-400">—</span>
+          <span v-else class="text-gray-400 dark:text-gray-600">—</span>
         </template>
 
         <template #status="{ item }">
-          <span :class="['badge', item.isActive ? 'badge-success' : 'badge']">
+          <span :class="['badge', item.isActive ? 'badge-success dark:bg-green-950/30 dark:text-green-400 dark:border-green-900/50' : 'badge dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700']">
             {{ item.isActive ? 'Active' : 'Inactive' }}
           </span>
         </template>
@@ -234,14 +231,14 @@ const activeSuppliers = computed(
             class="flex justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <button
-              class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
               @click="openEditModal(item)"
               aria-label="Edit"
             >
               <Icon name="lucide:pencil" class="h-3.5 w-3.5" />
             </button>
             <button
-              class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded transition-colors"
               @click="deleteSupplier(item.id, item.name)"
               aria-label="Delete"
             >
@@ -260,18 +257,18 @@ const activeSuppliers = computed(
     >
       <form id="supplier-form" class="space-y-6" @submit.prevent="saveSupplier">
         <!-- Basic Information -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-blue-600 dark:text-blue-400">
               <Icon name="lucide:building-2" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Basic Information
             </h3>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               Supplier Name <span class="text-red-500">*</span>
             </label>
             <UiInput
@@ -283,19 +280,19 @@ const activeSuppliers = computed(
         </div>
 
         <!-- Contact Information -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg text-emerald-600 dark:text-emerald-400">
               <Icon name="lucide:contact" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Contact Information
             </h3>
           </div>
 
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email</label>
               <UiInput
                 v-model="form.email"
                 type="email"
@@ -304,7 +301,7 @@ const activeSuppliers = computed(
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Phone</label>
               <UiInput 
                 v-model="form.phone" 
                 placeholder="+1 (555) 123-4567"
@@ -315,32 +312,32 @@ const activeSuppliers = computed(
         </div>
 
         <!-- Address -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-purple-50 rounded-lg text-purple-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-purple-600 dark:text-purple-400">
               <Icon name="lucide:map-pin" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Address
             </h3>
           </div>
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Street Address</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Street Address</label>
               <UiInput v-model="form.address" placeholder="123 Main Street" />
             </div>
             <div class="grid gap-4 sm:grid-cols-3">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">City</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">City</label>
                 <UiInput v-model="form.city" placeholder="Paris" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Postal Code</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Postal Code</label>
                 <UiInput v-model="form.postalCode" placeholder="75001" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Country</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Country</label>
                 <UiInput v-model="form.country" placeholder="France" />
               </div>
             </div>
@@ -348,12 +345,12 @@ const activeSuppliers = computed(
         </div>
 
         <!-- Additional Notes -->
-        <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100 space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60">
-            <div class="p-1.5 bg-amber-50 rounded-lg text-amber-600">
+        <div class="bg-gray-50/50 dark:bg-gray-800/50 p-5 rounded-xl border border-gray-100 dark:border-gray-800 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-gray-200/60 dark:border-gray-700">
+            <div class="p-1.5 bg-amber-50 dark:bg-amber-950/30 rounded-lg text-amber-600 dark:text-amber-400">
               <Icon name="lucide:file-text" class="h-4 w-4" />
             </div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Additional Notes
             </h3>
           </div>
@@ -361,7 +358,7 @@ const activeSuppliers = computed(
           <div>
             <textarea
               v-model="form.notes"
-              class="flex w-full rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none"
+              class="flex w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-4 py-2.5 text-sm shadow-sm transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500 min-h-[80px] resize-none dark:text-gray-100"
               placeholder="Any additional information about this supplier..."
             />
           </div>
@@ -369,32 +366,21 @@ const activeSuppliers = computed(
       </form>
 
       <template #footer>
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="isSubmitting"
-          @click="isModalOpen = false"
-        >
+        <UiButton variant="secondary" @click="isModalOpen = false">
           Cancel
-        </button>
-        <button
+        </UiButton>
+        <UiButton
           type="submit"
           form="supplier-form"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="isSubmitting"
+          :loading="isSubmitting"
         >
           <Icon
-            v-if="isSubmitting"
-            name="lucide:loader-2"
-            class="h-4 w-4 animate-spin"
-          />
-          <Icon
-            v-else
+            v-if="!isSubmitting"
             name="lucide:check"
-            class="h-4 w-4"
+            class="mr-2 h-4 w-4"
           />
           {{ editingSupplier ? 'Update Supplier' : 'Add Supplier' }}
-        </button>
+        </UiButton>
       </template>
     </UiModal>
   </div>

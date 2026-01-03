@@ -2,9 +2,10 @@
 const route = useRoute();
 const router = useRouter();
 const { toggleSidebar } = useSidebar();
-
+const { settings, toggleTheme } = useSettings();
 const { notifications, unreadCount, markAsRead, markAllAsRead } =
   useNotifications();
+
 const isNotificationsOpen = ref(false);
 
 function toggleNotifications() {
@@ -209,14 +210,14 @@ onMounted(() => {
 
 <template>
   <header
-    class="sticky top-0 z-40 flex h-16 items-center border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 lg:px-6 transition-all"
+    class="sticky top-0 z-40 flex h-16 items-center border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md px-4 lg:px-6 transition-all"
   >
     <div class="flex flex-1 items-center gap-4">
       <!-- Mobile menu button -->
       <UiButton
         variant="ghost"
         size="icon"
-        class="lg:hidden text-gray-500 hover:text-gray-900"
+        class="lg:hidden text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
         @click="toggleSidebar"
         aria-label="Toggle Menu"
       >
@@ -239,8 +240,8 @@ onMounted(() => {
             class="flex items-center gap-1.5 rounded-md px-2 py-1 transition-colors"
             :class="
               index === breadcrumbs.length - 1
-                ? 'font-semibold text-gray-900 bg-gray-100/50'
-                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                ? 'font-semibold text-gray-900 dark:text-gray-100 bg-gray-100/50 dark:bg-gray-800/50'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'
             "
           >
             <Icon v-if="crumb.icon" :name="crumb.icon" class="h-4 w-4" />
@@ -252,13 +253,27 @@ onMounted(() => {
 
     <!-- Right side: Actions -->
     <div class="flex items-center gap-1.5 sm:gap-3">
+      <!-- Theme toggle -->
+      <UiButton
+        variant="ghost"
+        size="icon"
+        @click="toggleTheme"
+        aria-label="Toggle theme"
+        class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+      >
+        <Icon
+          :name="settings?.theme === 'dark' ? 'lucide:sun' : 'lucide:moon'"
+          class="h-5 w-5"
+        />
+      </UiButton>
+
       <!-- Search button -->
       <UiButton
         variant="ghost"
         size="icon"
         @click="toggleSearch"
         aria-label="Search"
-        class="text-gray-500 hover:text-gray-900"
+        class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
       >
         <Icon name="lucide:search" class="h-5 w-5" />
       </UiButton>
@@ -269,14 +284,14 @@ onMounted(() => {
           variant="ghost"
           size="icon"
           aria-label="Notifications"
-          class="relative text-gray-500 hover:text-gray-900"
+          class="relative text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
           @click.stop="toggleNotifications"
         >
           <Icon name="lucide:bell" class="h-5 w-5" />
           <!-- Notification badge -->
           <span
             v-if="unreadCount > 0"
-            class="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white"
+            class="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-gray-950"
           >
             {{ unreadCount > 9 ? '9+' : unreadCount }}
           </span>
@@ -293,13 +308,13 @@ onMounted(() => {
         >
           <div
             v-if="isNotificationsOpen"
-            class="absolute right-0 top-full mt-2 w-80 origin-top-right rounded-xl border border-gray-200 bg-white shadow-lg z-50"
+            class="absolute right-0 top-full mt-2 w-80 origin-top-right rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg z-50"
           >
             <!-- Header -->
             <div
-              class="flex items-center justify-between border-b border-gray-100 px-4 py-3"
+              class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 px-4 py-3"
             >
-              <h3 class="font-semibold text-gray-900">Notifications</h3>
+              <h3 class="font-semibold text-gray-900 dark:text-gray-100">Notifications</h3>
               <button
                 v-if="unreadCount > 0"
                 class="text-xs text-primary-600 hover:text-primary-700 font-medium"
@@ -315,8 +330,8 @@ onMounted(() => {
                 <button
                   v-for="notification in notifications.slice(0, 10)"
                   :key="notification.id"
-                  class="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50"
-                  :class="{ 'bg-primary-50/50': !notification.read }"
+                  class="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                  :class="{ 'bg-primary-50/50 dark:bg-primary-900/10': !notification.read }"
                   @click="handleNotificationClick(notification)"
                 >
                   <div
@@ -344,12 +359,12 @@ onMounted(() => {
                     />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">
+                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                       {{ notification.title }}
                     </p>
                     <p
                       v-if="notification.description"
-                      class="text-xs text-gray-500 mt-0.5 line-clamp-2"
+                      class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2"
                     >
                       {{ notification.description }}
                     </p>
@@ -376,7 +391,7 @@ onMounted(() => {
             >
               <NuxtLink
                 to="/movements"
-                class="flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                class="flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
                 @click="closeNotifications"
               >
                 View all activity
@@ -439,24 +454,24 @@ onMounted(() => {
 
           <!-- Search box -->
           <div
-            class="relative z-10 w-full max-w-lg rounded-xl border border-gray-200 bg-white p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+            class="relative z-10 w-full max-w-lg rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
             @keydown.escape.stop.prevent="closeSearch"
           >
             <div class="flex items-center gap-3 px-3 py-2">
               <Icon
                 name="lucide:search"
-                class="h-5 w-5 shrink-0 text-gray-400"
+                class="h-5 w-5 shrink-0 text-gray-400 dark:text-gray-500"
               />
               <input
                 id="global-search"
                 v-model="searchQuery"
                 type="text"
                 placeholder="Search products, suppliers, categories..."
-                class="h-10 flex-1 bg-transparent text-base outline-none placeholder:text-gray-400"
+                class="h-10 flex-1 bg-transparent text-base outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600 dark:text-gray-100"
                 @keydown.escape.stop.prevent="closeSearch"
               />
               <kbd
-                class="hidden h-6 items-center rounded border border-gray-200 bg-gray-50 px-2 font-mono text-[10px] font-medium text-gray-500 sm:flex"
+                class="hidden h-6 items-center rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 px-2 font-mono text-[10px] font-medium text-gray-500 dark:text-gray-400 sm:flex"
               >
                 ESC
               </kbd>
@@ -465,10 +480,10 @@ onMounted(() => {
             <!-- Search Results -->
             <div
               v-if="searchQuery && filteredResults.length > 0"
-              class="mt-2 border-t border-gray-100 pt-2"
+              class="mt-2 border-t border-gray-100 dark:border-gray-800 pt-2"
             >
               <p
-                class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                class="px-4 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
               >
                 Results ({{ filteredResults.length }})
               </p>
@@ -476,7 +491,7 @@ onMounted(() => {
                 <button
                   v-for="result in filteredResults"
                   :key="`${result.type}-${result.id}`"
-                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors text-left w-full"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors text-left w-full"
                   @click="navigateToResult(result)"
                 >
                   <div
@@ -491,10 +506,10 @@ onMounted(() => {
                     <Icon :name="result.icon" class="h-4 w-4" />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="font-medium truncate">{{ result.name }}</p>
+                    <p class="font-medium truncate text-gray-900 dark:text-gray-100 font-medium truncate">{{ result.name }}</p>
                     <p
                       v-if="result.description"
-                      class="text-xs text-gray-400 truncate"
+                      class="text-xs text-gray-400 dark:text-gray-500 truncate"
                     >
                       {{ result.description }}
                     </p>
@@ -517,7 +532,7 @@ onMounted(() => {
             <!-- No results -->
             <div
               v-else-if="searchQuery && filteredResults.length === 0"
-              class="mt-2 border-t border-gray-100 pt-2"
+              class="mt-2 border-t border-gray-100 dark:border-gray-800 pt-2"
             >
               <div
                 class="flex flex-col items-center justify-center py-8 text-gray-400"
@@ -528,16 +543,16 @@ onMounted(() => {
             </div>
 
             <!-- Quick links (shown when no search query) -->
-            <div v-else class="mt-2 border-t border-gray-100 pt-2">
+            <div v-else class="mt-2 border-t border-gray-100 dark:border-gray-800 pt-2">
               <p
-                class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                class="px-4 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
               >
                 Quick Links
               </p>
               <div class="flex flex-col p-2">
                 <NuxtLink
                   to="/products"
-                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   @click="isSearchOpen = false"
                 >
                   <div
@@ -549,7 +564,7 @@ onMounted(() => {
                 </NuxtLink>
                 <NuxtLink
                   to="/movements"
-                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   @click="isSearchOpen = false"
                 >
                   <div
@@ -561,7 +576,7 @@ onMounted(() => {
                 </NuxtLink>
                 <NuxtLink
                   to="/suppliers"
-                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   @click="isSearchOpen = false"
                 >
                   <div
