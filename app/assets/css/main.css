@@ -3,46 +3,78 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+  }
+
+  .dark {
+    --glass-bg: rgba(72, 90, 130, 0.4);
+    /* Blue Rain with transparency */
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary-100 selection:text-primary-900 transition-colors duration-200;
+    @apply bg-background text-foreground antialiased selection:bg-primary-100 selection:text-primary-900 transition-colors duration-300;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight text-gray-900 dark:text-gray-100;
+  .dark body {
+    @apply bg-bluerain-900;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(72, 90, 130, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight text-gray-900 dark:text-white;
   }
 
   h1 {
-    @apply text-2xl;
+    @apply text-2xl sm:text-3xl;
   }
 
   h2 {
-    @apply text-xl;
+    @apply text-xl sm:text-2xl;
   }
 
   h3 {
-    @apply text-lg;
+    @apply text-lg sm:text-xl;
   }
 
-  input::placeholder, textarea::placeholder {
-    @apply text-gray-400 dark:text-gray-500;
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-400 dark:text-bluerain-400;
   }
 
   /* Smooth transition for theme switching */
   * {
-    @apply transition-colors duration-200;
+    @apply transition-colors duration-300;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/80 backdrop-blur-md border border-white/20;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    @apply shadow-lg;
   }
-  
+
+  .glass-card {
+    @apply glass rounded-xl border-white/20 dark:border-white/10;
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

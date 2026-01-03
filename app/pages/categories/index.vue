@@ -140,9 +140,9 @@ const topLevelCategories = computed(
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Categories</h1>
-        <p class="text-xs text-gray-500 dark:text-gray-400">Organize products by category and sub-categories.</p>
+        <p class="text-xs text-gray-500 dark:text-bluerain-300">Organize products by category and sub-categories.</p>
       </div>
-      <UiButton @click="openCreateModal">
+      <UiButton @click="openCreateModal" class="bg-bluerain-500 hover:bg-bluerain-600 shadow-lg shadow-bluerain-500/20">
         <Icon name="lucide:plus" class="h-4 w-4" />
         Add Category
       </UiButton>
@@ -151,27 +151,27 @@ const topLevelCategories = computed(
     <!-- Quick Stats -->
     <div class="flex gap-3">
       <div
-        class="flex items-center gap-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-gray-200 dark:border-white/10 bg-white dark:bg-bluerain-900/40 px-3 py-1.5 glass"
       >
-        <Icon name="lucide:folder" class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
-        <span class="text-xs text-gray-700 dark:text-gray-300">
+        <Icon name="lucide:folder" class="h-3.5 w-3.5 text-gray-400 dark:text-bluerain-400" />
+        <span class="text-xs text-gray-700 dark:text-bluerain-200">
           <span class="font-medium font-mono">{{ totalCategories }}</span>
-          <span class="text-gray-500 dark:text-gray-500"> total</span>
+          <span class="text-gray-500 dark:text-bluerain-400"> total</span>
         </span>
       </div>
       <div
-        class="flex items-center gap-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1.5"
+        class="flex items-center gap-2 rounded border border-gray-200 dark:border-white/10 bg-white dark:bg-bluerain-900/40 px-3 py-1.5 glass"
       >
-        <Icon name="lucide:folder-tree" class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
-        <span class="text-xs text-gray-700 dark:text-gray-300">
+        <Icon name="lucide:folder-tree" class="h-3.5 w-3.5 text-gray-400 dark:text-bluerain-400" />
+        <span class="text-xs text-gray-700 dark:text-bluerain-200">
           <span class="font-medium font-mono">{{ topLevelCategories }}</span>
-          <span class="text-gray-500 dark:text-gray-500"> top level</span>
+          <span class="text-gray-500 dark:text-bluerain-400"> top level</span>
         </span>
       </div>
     </div>
 
     <!-- Categories Table -->
-    <div class="card overflow-hidden">
+    <div class="glass-card overflow-hidden bg-white/70 dark:bg-bluerain-900/40">
       <UiDataTable
         :columns="columns"
         :data="categories || []"

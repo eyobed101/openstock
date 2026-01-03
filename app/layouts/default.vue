@@ -5,7 +5,7 @@ const { isCollapsed } = useSidebar();
 
 <template>
   <!-- Main layout when authenticated -->
-  <div v-if="loggedIn" class="flex h-screen overflow-hidden bg-gray-50">
+  <div v-if="loggedIn" class="flex h-screen overflow-hidden bg-gray-50 dark:bg-bluerain-950 transition-colors duration-300">
     <!-- Sidebar -->
     <AppSidebar />
 

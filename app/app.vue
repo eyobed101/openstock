@@ -9,7 +9,7 @@ useHead({
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-screen bg-background dark:bg-bluerain-900 transition-colors duration-300">
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />

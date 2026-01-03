@@ -47,13 +47,13 @@ function formatDate(date: Date | string): string {
 }
 
 const ui = {
-  card: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full',
+  card: 'glass-card overflow-hidden flex flex-col h-full bg-white/70 dark:bg-bluerain-900/40',
   cardHeader:
-    'px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex items-center justify-between',
+    'px-4 py-3 border-b border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between',
   cardTitle:
-    'text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider flex items-center gap-2',
+    'text-xs font-bold text-gray-700 dark:text-bluerain-200 uppercase tracking-wider flex items-center gap-2',
   cardBody: 'p-4 flex-1',
-  mono: 'font-mono tracking-tight text-gray-900 dark:text-gray-100',
+  mono: 'font-mono tracking-tight text-gray-900 dark:text-white',
 };
 </script>
 
@@ -78,7 +78,7 @@ const ui = {
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div
-        class="p-5 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+        class="p-5 glass-card bg-white/70 dark:bg-bluerain-900/40 hover:bg-white/80 dark:hover:bg-bluerain-900/60 transition-all duration-300"
       >
         <div class="flex justify-between items-start">
           <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
@@ -87,18 +87,18 @@ const ui = {
           <Icon name="lucide:package" class="h-4 w-4 text-gray-400 dark:text-gray-500" />
         </div>
         <div class="mt-2 flex items-baseline gap-2">
-          <span class="text-2xl font-bold text-gray-900 dark:text-gray-100 font-mono">{{
+          <span class="text-2xl font-bold text-gray-900 dark:text-white font-mono">{{
             stats?.totalProducts ?? 0
           }}</span>
         </div>
       </div>
 
       <div
-        class="p-5 rounded-lg border shadow-sm transition-colors"
+        class="p-5 glass-card transition-all duration-300"
         :class="
           (stats?.lowStockCount ?? 0) > 0
-            ? 'bg-amber-50/30 dark:bg-amber-900/10 border-amber-200 dark:border-amber-900/50'
-            : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'
+            ? 'bg-amber-50/30 dark:bg-amber-900/20 border-amber-200 dark:border-amber-400/50 shadow-amber-500/10'
+            : 'bg-white/70 dark:bg-bluerain-900/40 border-gray-200 dark:border-white/10'
         "
       >
         <div class="flex justify-between items-start">
@@ -141,7 +141,7 @@ const ui = {
       </div>
 
       <div
-        class="p-5 rounded-lg border border-gray-200 bg-white shadow-sm hover:border-gray-300 transition-colors"
+        class="p-5 glass-card bg-white/70 dark:bg-bluerain-900/40 transition-all duration-300"
       >
         <div class="flex justify-between items-start">
           <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
@@ -157,7 +157,7 @@ const ui = {
       </div>
 
       <div
-        class="p-5 rounded-lg border border-gray-200 bg-white shadow-sm hover:border-gray-300 transition-colors"
+        class="p-5 glass-card bg-white/70 dark:bg-bluerain-900/40 transition-all duration-300"
       >
         <div class="flex justify-between items-start">
           <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">

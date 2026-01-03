@@ -79,6 +79,20 @@ export default {
           foreground: '#FFFFFF',
           muted: '#FFFBEB', // amber-50
         },
+        // Blue Rain Palette
+        bluerain: {
+          50: '#F5F7FA',
+          100: '#E9ECF1',
+          200: '#C7D0E0',
+          300: '#A5B4CF',
+          400: '#5C6F9B',
+          500: '#485A82', // Primary Blue Rain
+          600: '#364461',
+          700: '#2A354D',
+          800: '#1E2638',
+          900: '#121722',
+          950: '#090C12',
+        },
         sidebar: {
           DEFAULT: '#FFFFFF',
           foreground: '#52525B', // gray-600

@@ -500,33 +500,33 @@ function getSupplierName(supplierId: string | null | undefined) {
 
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 dark:border-gray-800 pb-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 dark:border-white/10 pb-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
           Products
         </h1>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-500 dark:text-bluerain-300">
           Manage your inventory catalog and pricing strategies.
         </p>
       </div>
-      <UiButton @click="openCreateModal">
+      <UiButton @click="openCreateModal" class="bg-bluerain-500 hover:bg-bluerain-600 shadow-lg shadow-bluerain-500/20">
         <Icon name="lucide:plus" class="mr-2 h-4 w-4" />
         New Product
       </UiButton>
     </div>
 
     <!-- Filters -->
-    <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+    <div class="glass-card bg-white/70 dark:bg-bluerain-900/40 p-5 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
         <div class="flex items-center gap-2">
-          <div class="p-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg text-gray-500 dark:text-gray-400">
+          <div class="p-1.5 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-bluerain-300">
             <Icon name="lucide:filter" class="h-4 w-4" />
           </div>
-          <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Search & Filters</h3>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Search & Filters</h3>
         </div>
         <button
           v-if="hasActiveFilters"
-          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-gray-700 shadow-sm"
+          class="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-bluerain-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-white/10 shadow-sm"
           @click="clearFilters"
         >
           <Icon name="lucide:rotate-ccw" class="h-3.5 w-3.5" />
@@ -537,14 +537,14 @@ function getSupplierName(supplierId: string | null | undefined) {
       <div class="flex flex-col md:flex-row gap-4">
         <!-- Search -->
         <div class="flex-1">
-          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Search Products</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-bluerain-300 mb-2 uppercase tracking-wide">Search Products</label>
           <div class="relative">
             <Icon name="lucide:search" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <input
               v-model="filters.search"
               type="text"
               placeholder="Search by name or SKU..."
-              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent dark:text-gray-100 dark:placeholder:text-gray-600"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-bluerain-950/40 pl-10 pr-4 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluerain-500 focus-visible:border-transparent dark:text-white dark:placeholder:text-bluerain-600"
               @input="applyFilters"
             />
           </div>
@@ -552,12 +552,12 @@ function getSupplierName(supplierId: string | null | undefined) {
 
         <!-- Category Filter -->
         <div class="w-full md:w-64">
-          <label class="block text-xs font-medium text-gray-700 dark:text-gray-400 mb-2 uppercase tracking-wide">Category</label>
+          <label class="block text-xs font-medium text-gray-700 dark:text-bluerain-300 mb-2 uppercase tracking-wide">Category</label>
           <div class="relative">
             <Icon name="lucide:layers" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
             <select
               v-model="filters.categoryId"
-              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent appearance-none dark:text-gray-100"
+              class="flex h-11 w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-bluerain-950/40 pl-10 pr-10 py-2.5 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluerain-500 focus-visible:border-transparent appearance-none dark:text-white"
               @change="applyFilters"
             >
               <option value="">All Categories</option>
@@ -575,13 +575,13 @@ function getSupplierName(supplierId: string | null | undefined) {
       </div>
 
       <!-- Results info -->
-      <div v-if="productsResponse" class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+      <div v-if="productsResponse" class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-white/10">
+        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-bluerain-400">
           <Icon name="lucide:info" class="h-3.5 w-3.5" />
           <span>Showing {{ pagination.page * pagination.limit - pagination.limit + 1 }}-{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }} products</span>
         </div>
         <button
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-950/30 px-3 py-1.5 rounded-lg transition-colors"
+          class="inline-flex items-center gap-1.5 text-xs font-semibold text-bluerain-600 dark:text-bluerain-400 hover:text-bluerain-700 dark:hover:text-bluerain-200 hover:bg-bluerain-50 dark:hover:bg-bluerain-900/40 px-3 py-1.5 rounded-lg transition-colors"
           @click="refresh"
         >
           <Icon name="lucide:refresh-cw" class="h-3.5 w-3.5" :class="{ 'animate-spin': pending }" />
@@ -592,42 +592,42 @@ function getSupplierName(supplierId: string | null | undefined) {
 
     <!-- Custom Accordion Table -->
     <div
-      class="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
+      class="w-full overflow-hidden glass-card bg-white/70 dark:bg-bluerain-900/40"
     >
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm whitespace-nowrap">
-          <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50/50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10">
             <tr>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 w-8"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300 w-8"
               ></th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300"
               >
                 Product
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300"
               >
                 SKU
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300"
               >
                 Category
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300 text-right"
               >
                 Stock
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300 text-right"
               >
                 Cost
               </th>
               <th
-                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 text-right"
+                class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-bluerain-300 text-right"
               >
                 Price
               </th>
@@ -637,7 +637,7 @@ function getSupplierName(supplierId: string | null | undefined) {
             </tr>
           </thead>
 
-          <tbody class="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900">
+          <tbody class="divide-y divide-gray-100 dark:divide-white/5 bg-transparent">
             <!-- Loading State -->
             <tr v-if="pending">
               <td colspan="8" class="h-32 text-center">
@@ -705,11 +705,11 @@ function getSupplierName(supplierId: string | null | undefined) {
                     class="flex items-center gap-3 text-left w-full group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
                   >
                     <div
-                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800"
+                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-bluerain-800/50"
                     >
                       <Icon
                         name="lucide:box"
-                        class="h-4.5 w-4.5 text-gray-400 dark:text-gray-500"
+                        class="h-4.5 w-4.5 text-gray-400 dark:text-bluerain-300"
                       />
                     </div>
                     <div class="min-w-0">
